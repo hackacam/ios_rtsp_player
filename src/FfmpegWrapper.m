@@ -12,6 +12,29 @@
 #import <FFmpegDecoder/libavformat/avformat.h>
 #import <FFmpegDecoder/libswscale/swscale.h>
 
+@interface AVFrameData : NSObject
+@property (nonatomic, strong) NSMutableData *colorPlane0;
+@property (nonatomic, strong) NSMutableData *colorPlane1;
+@property (nonatomic, strong) NSMutableData *colorPlane2;
+@property (nonatomic, strong) NSNumber      *lineWidth0;
+@property (nonatomic, strong) NSNumber      *lineWidth1;
+@property (nonatomic, strong) NSNumber      *lineWidth2;
+@property (nonatomic, strong) NSNumber      *width;
+@property (nonatomic, strong) NSNumber      *height;
+@property (nonatomic, strong) NSDate        *presentationTime;
+@end
+@implementation AVFrameData
+@synthesize colorPlane0=_colorPlane0;
+@synthesize colorPlane1=_colorPlane1;
+@synthesize colorPlane2=_colorPlane2;
+@synthesize lineWidth0=_lineWidth0;
+@synthesize lineWidth1=_lineWidth1;
+@synthesize lineWidth2=_lineWidth2;
+@synthesize width=_width;
+@synthesize height=_height;
+@synthesize presentationTime=_presentationTime;
+@end
+
 @interface FfmpegWrapper(){
     AVFormatContext *pFormatCtx;
     AVCodecContext  *pCodecCtx;
