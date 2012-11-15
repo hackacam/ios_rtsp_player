@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		615FB2B41655856E00D50098 /* FfmpegWrapperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */; };
 		619E50351655765400463A94 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50341655765400463A94 /* UIKit.framework */; };
 		619E50371655765400463A94 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50361655765400463A94 /* Foundation.framework */; };
 		619E50391655765400463A94 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50381655765400463A94 /* CoreGraphics.framework */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		615FB2B21655856E00D50098 /* FfmpegWrapperTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FfmpegWrapperTest.h; path = src_tests/FfmpegWrapperTest.h; sourceTree = SOURCE_ROOT; };
+		615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FfmpegWrapperTest.m; path = src_tests/FfmpegWrapperTest.m; sourceTree = SOURCE_ROOT; };
 		619E50301655765400463A94 /* rtsp_player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rtsp_player.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		619E50341655765400463A94 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		619E50361655765400463A94 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -179,6 +182,8 @@
 		619E508916557DED00463A94 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				615FB2B21655856E00D50098 /* FfmpegWrapperTest.h */,
+				615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */,
 				619E508A16557DFC00463A94 /* rtsp_playerTests.h */,
 				619E508B16557DFC00463A94 /* rtsp_playerTests.m */,
 			);
@@ -307,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				619E508C16557DFC00463A94 /* rtsp_playerTests.m in Sources */,
+				615FB2B41655856E00D50098 /* FfmpegWrapperTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
