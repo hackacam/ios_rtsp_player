@@ -21,10 +21,10 @@
 		619E505A1655765500463A94 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50341655765400463A94 /* UIKit.framework */; };
 		619E505B1655765500463A94 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50361655765400463A94 /* Foundation.framework */; };
 		619E50631655765500463A94 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 619E50611655765500463A94 /* InfoPlist.strings */; };
-		619E50661655765500463A94 /* rtsp_playerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E50651655765500463A94 /* rtsp_playerTests.m */; };
 		619E5074165576E800463A94 /* FfmpegWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E5071165576E800463A94 /* FfmpegWrapper.m */; };
 		619E5075165576E800463A94 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E5073165576E800463A94 /* RootViewController.m */; };
 		619E5077165576F600463A94 /* FFmpegDecoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E5076165576F600463A94 /* FFmpegDecoder.framework */; };
+		619E508C16557DFC00463A94 /* rtsp_playerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E508B16557DFC00463A94 /* rtsp_playerTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,13 +56,13 @@
 		619E50581655765500463A94 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		619E50601655765500463A94 /* rtsp_playerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rtsp_playerTests-Info.plist"; sourceTree = "<group>"; };
 		619E50621655765500463A94 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		619E50641655765500463A94 /* rtsp_playerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rtsp_playerTests.h; sourceTree = "<group>"; };
-		619E50651655765500463A94 /* rtsp_playerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rtsp_playerTests.m; sourceTree = "<group>"; };
 		619E5070165576E800463A94 /* FfmpegWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FfmpegWrapper.h; sourceTree = "<group>"; };
 		619E5071165576E800463A94 /* FfmpegWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FfmpegWrapper.m; sourceTree = "<group>"; };
 		619E5072165576E800463A94 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		619E5073165576E800463A94 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		619E5076165576F600463A94 /* FFmpegDecoder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FFmpegDecoder.framework; sourceTree = "<group>"; };
+		619E508A16557DFC00463A94 /* rtsp_playerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rtsp_playerTests.h; path = src_tests/rtsp_playerTests.h; sourceTree = SOURCE_ROOT; };
+		619E508B16557DFC00463A94 /* rtsp_playerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rtsp_playerTests.m; path = src_tests/rtsp_playerTests.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,8 +124,8 @@
 		619E503A1655765400463A94 /* rtsp_player */ = {
 			isa = PBXGroup;
 			children = (
-				619E506F165576E800463A94 /* src */,
 				619E504C1655765500463A94 /* MainStoryboard.storyboard */,
+				619E506F165576E800463A94 /* src */,
 				619E503B1655765400463A94 /* Supporting Files */,
 			);
 			path = rtsp_player;
@@ -150,8 +150,7 @@
 		619E505E1655765500463A94 /* rtsp_playerTests */ = {
 			isa = PBXGroup;
 			children = (
-				619E50641655765500463A94 /* rtsp_playerTests.h */,
-				619E50651655765500463A94 /* rtsp_playerTests.m */,
+				619E508916557DED00463A94 /* src */,
 				619E505F1655765500463A94 /* Supporting Files */,
 			);
 			path = rtsp_playerTests;
@@ -176,6 +175,15 @@
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
+		};
+		619E508916557DED00463A94 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				619E508A16557DFC00463A94 /* rtsp_playerTests.h */,
+				619E508B16557DFC00463A94 /* rtsp_playerTests.m */,
+			);
+			name = src;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -298,7 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				619E50661655765500463A94 /* rtsp_playerTests.m in Sources */,
+				619E508C16557DFC00463A94 /* rtsp_playerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +483,7 @@
 				619E506B1655765500463A94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		619E506C1655765500463A94 /* Build configuration list for PBXNativeTarget "rtsp_playerTests" */ = {
 			isa = XCConfigurationList;
@@ -483,6 +492,7 @@
 				619E506E1655765500463A94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
