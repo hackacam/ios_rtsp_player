@@ -17,12 +17,14 @@
 		619E50491655765500463A94 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 619E50481655765500463A94 /* Default@2x.png */; };
 		619E504B1655765500463A94 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 619E504A1655765500463A94 /* Default-568h@2x.png */; };
 		619E504E1655765500463A94 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 619E504C1655765500463A94 /* MainStoryboard.storyboard */; };
-		619E50511655765500463A94 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E50501655765500463A94 /* ViewController.m */; };
 		619E50591655765500463A94 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50581655765500463A94 /* SenTestingKit.framework */; };
 		619E505A1655765500463A94 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50341655765400463A94 /* UIKit.framework */; };
 		619E505B1655765500463A94 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50361655765400463A94 /* Foundation.framework */; };
 		619E50631655765500463A94 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 619E50611655765500463A94 /* InfoPlist.strings */; };
 		619E50661655765500463A94 /* rtsp_playerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E50651655765500463A94 /* rtsp_playerTests.m */; };
+		619E5074165576E800463A94 /* FfmpegWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E5071165576E800463A94 /* FfmpegWrapper.m */; };
+		619E5075165576E800463A94 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E5073165576E800463A94 /* RootViewController.m */; };
+		619E5077165576F600463A94 /* FFmpegDecoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E5076165576F600463A94 /* FFmpegDecoder.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,14 +52,17 @@
 		619E50481655765500463A94 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		619E504A1655765500463A94 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		619E504D1655765500463A94 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		619E504F1655765500463A94 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		619E50501655765500463A94 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		619E50571655765500463A94 /* rtsp_playerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rtsp_playerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		619E50581655765500463A94 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		619E50601655765500463A94 /* rtsp_playerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rtsp_playerTests-Info.plist"; sourceTree = "<group>"; };
 		619E50621655765500463A94 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		619E50641655765500463A94 /* rtsp_playerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rtsp_playerTests.h; sourceTree = "<group>"; };
 		619E50651655765500463A94 /* rtsp_playerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rtsp_playerTests.m; sourceTree = "<group>"; };
+		619E5070165576E800463A94 /* FfmpegWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FfmpegWrapper.h; sourceTree = "<group>"; };
+		619E5071165576E800463A94 /* FfmpegWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FfmpegWrapper.m; sourceTree = "<group>"; };
+		619E5072165576E800463A94 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		619E5073165576E800463A94 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		619E5076165576F600463A94 /* FFmpegDecoder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FFmpegDecoder.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +73,7 @@
 				619E50351655765400463A94 /* UIKit.framework in Frameworks */,
 				619E50371655765400463A94 /* Foundation.framework in Frameworks */,
 				619E50391655765400463A94 /* CoreGraphics.framework in Frameworks */,
+				619E5077165576F600463A94 /* FFmpegDecoder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +112,7 @@
 		619E50331655765400463A94 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				619E5076165576F600463A94 /* FFmpegDecoder.framework */,
 				619E50341655765400463A94 /* UIKit.framework */,
 				619E50361655765400463A94 /* Foundation.framework */,
 				619E50381655765400463A94 /* CoreGraphics.framework */,
@@ -117,11 +124,8 @@
 		619E503A1655765400463A94 /* rtsp_player */ = {
 			isa = PBXGroup;
 			children = (
-				619E50431655765400463A94 /* AppDelegate.h */,
-				619E50441655765400463A94 /* AppDelegate.m */,
+				619E506F165576E800463A94 /* src */,
 				619E504C1655765500463A94 /* MainStoryboard.storyboard */,
-				619E504F1655765500463A94 /* ViewController.h */,
-				619E50501655765500463A94 /* ViewController.m */,
 				619E503B1655765400463A94 /* Supporting Files */,
 			);
 			path = rtsp_player;
@@ -130,6 +134,8 @@
 		619E503B1655765400463A94 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				619E50431655765400463A94 /* AppDelegate.h */,
+				619E50441655765400463A94 /* AppDelegate.m */,
 				619E503C1655765400463A94 /* rtsp_player-Info.plist */,
 				619E503D1655765400463A94 /* InfoPlist.strings */,
 				619E50401655765400463A94 /* main.m */,
@@ -159,6 +165,17 @@
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
+		};
+		619E506F165576E800463A94 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				619E5070165576E800463A94 /* FfmpegWrapper.h */,
+				619E5071165576E800463A94 /* FfmpegWrapper.m */,
+				619E5072165576E800463A94 /* RootViewController.h */,
+				619E5073165576E800463A94 /* RootViewController.m */,
+			);
+			path = src;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -272,7 +289,8 @@
 			files = (
 				619E50411655765400463A94 /* main.m in Sources */,
 				619E50451655765400463A94 /* AppDelegate.m in Sources */,
-				619E50511655765500463A94 /* ViewController.m in Sources */,
+				619E5074165576E800463A94 /* FfmpegWrapper.m in Sources */,
+				619E5075165576E800463A94 /* RootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +395,10 @@
 		619E506A1655765500463A94 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rtsp_player/rtsp_player-Prefix.pch";
 				INFOPLIST_FILE = "rtsp_player/rtsp_player-Info.plist";
@@ -388,6 +410,10 @@
 		619E506B1655765500463A94 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rtsp_player/rtsp_player-Prefix.pch";
 				INFOPLIST_FILE = "rtsp_player/rtsp_player-Info.plist";
