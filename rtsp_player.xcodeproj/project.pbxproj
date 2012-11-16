@@ -28,6 +28,10 @@
 		619E5075165576E800463A94 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E5073165576E800463A94 /* RootViewController.m */; };
 		619E5077165576F600463A94 /* FFmpegDecoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E5076165576F600463A94 /* FFmpegDecoder.framework */; };
 		619E508C16557DFC00463A94 /* rtsp_playerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E508B16557DFC00463A94 /* rtsp_playerTests.m */; };
+		61EC549B1656C672005C220D /* testOutput720x480_yuv420_1.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54971656C672005C220D /* testOutput720x480_yuv420_1.yuv */; };
+		61EC549C1656C672005C220D /* testOutput720x480_yuv420_2.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54981656C672005C220D /* testOutput720x480_yuv420_2.yuv */; };
+		61EC549D1656C672005C220D /* testOutput720x480_yuv420_3.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54991656C672005C220D /* testOutput720x480_yuv420_3.yuv */; };
+		61EC549E1656C672005C220D /* testOutput720x480_yuv420_4.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC549A1656C672005C220D /* testOutput720x480_yuv420_4.yuv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +74,10 @@
 		619E5076165576F600463A94 /* FFmpegDecoder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FFmpegDecoder.framework; sourceTree = "<group>"; };
 		619E508A16557DFC00463A94 /* rtsp_playerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rtsp_playerTests.h; path = src_tests/rtsp_playerTests.h; sourceTree = SOURCE_ROOT; };
 		619E508B16557DFC00463A94 /* rtsp_playerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rtsp_playerTests.m; path = src_tests/rtsp_playerTests.m; sourceTree = SOURCE_ROOT; };
+		61EC54971656C672005C220D /* testOutput720x480_yuv420_1.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testOutput720x480_yuv420_1.yuv; sourceTree = "<group>"; };
+		61EC54981656C672005C220D /* testOutput720x480_yuv420_2.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testOutput720x480_yuv420_2.yuv; sourceTree = "<group>"; };
+		61EC54991656C672005C220D /* testOutput720x480_yuv420_3.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testOutput720x480_yuv420_3.yuv; sourceTree = "<group>"; };
+		61EC549A1656C672005C220D /* testOutput720x480_yuv420_4.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testOutput720x480_yuv420_4.yuv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +175,10 @@
 		619E505F1655765500463A94 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				61EC54971656C672005C220D /* testOutput720x480_yuv420_1.yuv */,
+				61EC54981656C672005C220D /* testOutput720x480_yuv420_2.yuv */,
+				61EC54991656C672005C220D /* testOutput720x480_yuv420_3.yuv */,
+				61EC549A1656C672005C220D /* testOutput720x480_yuv420_4.yuv */,
 				615FB2B8165594D300D50098 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */,
 				619E50601655765500463A94 /* rtsp_playerTests-Info.plist */,
 				619E50611655765500463A94 /* InfoPlist.strings */,
@@ -282,6 +294,10 @@
 			files = (
 				619E50631655765500463A94 /* InfoPlist.strings in Resources */,
 				615FB2B9165594D300D50098 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */,
+				61EC549B1656C672005C220D /* testOutput720x480_yuv420_1.yuv in Resources */,
+				61EC549C1656C672005C220D /* testOutput720x480_yuv420_2.yuv in Resources */,
+				61EC549D1656C672005C220D /* testOutput720x480_yuv420_3.yuv in Resources */,
+				61EC549E1656C672005C220D /* testOutput720x480_yuv420_4.yuv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -40,16 +40,30 @@
         [self.h264dec startDecodingWithCallbackBlock:^(AVFrameData *frame) {
             _counter++;
             if (_counter<5){
-                UIImage *outputImage = [FfmpegWrapper convertFrameDataToImage:frame];
-                NSData *imgData = UIImagePNGRepresentation(outputImage); // convert to png
-                NSString *pngPath = [NSHomeDirectory() stringByAppendingFormat:@"Documents/testOutput%d.jpg", _counter]; // identity
+//                UIImage *outputImage = [FfmpegWrapper convertFrameDataToImage:frame];
+//                NSData *imgData = UIImagePNGRepresentation(outputImage); // convert to png
+                NSMutableData *yuvData = [[NSMutableData alloc] initWithData:frame.colorPlane0];
+                [yuvData appendData:frame.colorPlane1];
+                [yuvData appendData:frame.colorPlane2];
+                NSString *pngPath = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/testOutput%dx%d_yuv420_%d.yuv",
+                                     frame.width.intValue, frame.height.intValue, _counter]; // identity
+                NSLog(@"%@", pngPath);
 //                [imgData writeToFile:pngPath atomically:YES];
+ 
+                if (![yuvData writeToFile:pngPath atomically:YES]){
+                    NSLog(@"write failed!");
+                }
             }
             NSLog(@"width = %@", frame.width);
         } waitForConsumer:YES completionCallback:^{
             
         }];
     }
+    
+    usleep(1000000);
+    [self.h264dec stopDecode];
+    self.h264dec = nil;
+    
 }
 
 - (void)didReceiveMemoryWarning

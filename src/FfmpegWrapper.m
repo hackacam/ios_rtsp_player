@@ -37,6 +37,8 @@
     
     dispatch_semaphore_t _outputSinkQueueSema;
     
+    dispatch_group_t _decode_queue_group;
+    
     volatile bool _stopDecode;
 }
 
@@ -60,6 +62,8 @@
     
     // setup output queue depth;
     _outputSinkQueueSema = dispatch_semaphore_create((long)(5));
+    
+    _decode_queue_group = dispatch_group_create();
     
     // set memory barrier
     OSMemoryBarrier();
@@ -133,17 +137,36 @@
 }
 
 -(AVFrameData *) createFrameData: (AVFrame *) frame
+                     trimPadding: (BOOL) trim
 {
     AVFrameData *frameData = [[AVFrameData alloc] init];
-    frameData.colorPlane0 = [[NSMutableData alloc] initWithBytes:frame->data[0] length:frame->linesize[0]*frame->height];
-    frameData.colorPlane1 = [[NSMutableData alloc] initWithBytes:frame->data[1] length:frame->linesize[1]*frame->height/2];
-    frameData.colorPlane2 = [[NSMutableData alloc] initWithBytes:frame->data[2] length:frame->linesize[2]*frame->height/2];
-    frameData.lineSize0 = [[NSNumber alloc] initWithInt:frame->linesize[0]];
-    frameData.lineSize1 = [[NSNumber alloc] initWithInt:frame->linesize[1]];
-    frameData.lineSize2 = [[NSNumber alloc] initWithInt:frame->linesize[2]];
+    if (trim){
+        frameData.colorPlane0 = [[NSMutableData alloc] init];
+        frameData.colorPlane1 = [[NSMutableData alloc] init];
+        frameData.colorPlane2 = [[NSMutableData alloc] init];
+        for (int i=0; i<frame->height; i++){
+            [frameData.colorPlane0 appendBytes:(void*) (frame->data[0]+i*frame->linesize[0])
+                                        length:frame->width];
+        }
+        for (int i=0; i<frame->height/2; i++){
+            [frameData.colorPlane1 appendBytes:(void*) (frame->data[1]+i*frame->linesize[1])
+                                        length:frame->width/2];
+            [frameData.colorPlane2 appendBytes:(void*) (frame->data[2]+i*frame->linesize[2])
+                                        length:frame->width/2];
+        }
+        frameData.lineSize0 = [[NSNumber alloc] initWithInt:frame->width];
+        frameData.lineSize1 = [[NSNumber alloc] initWithInt:frame->width/2];
+        frameData.lineSize2 = [[NSNumber alloc] initWithInt:frame->width/2];
+    }else{
+        frameData.colorPlane0 = [[NSMutableData alloc] initWithBytes:frame->data[0] length:frame->linesize[0]*frame->height];
+        frameData.colorPlane1 = [[NSMutableData alloc] initWithBytes:frame->data[1] length:frame->linesize[1]*frame->height/2];
+        frameData.colorPlane2 = [[NSMutableData alloc] initWithBytes:frame->data[2] length:frame->linesize[2]*frame->height/2];
+        frameData.lineSize0 = [[NSNumber alloc] initWithInt:frame->linesize[0]];
+        frameData.lineSize1 = [[NSNumber alloc] initWithInt:frame->linesize[1]];
+        frameData.lineSize2 = [[NSNumber alloc] initWithInt:frame->linesize[2]];
+    }
     frameData.width = [[NSNumber alloc] initWithInt:frame->width];
     frameData.height = [[NSNumber alloc] initWithInt:frame->height];
-    
     return frameData;
 }
 
@@ -160,7 +183,7 @@
     _stopDecode=false;
     dispatch_queue_t decodeQueue = dispatch_queue_create("decodeQueue", NULL);
     dispatch_queue_t outputSinkQueue = dispatch_queue_create("outputSink", NULL);
-    dispatch_async(decodeQueue, ^{
+    dispatch_group_async(_decode_queue_group, decodeQueue, ^{
         int frameFinished;
         OSMemoryBarrier();
         while (self->_stopDecode==false){
@@ -183,7 +206,7 @@
                         if (waitSignal==0){
                             dispatch_async(outputSinkQueue, ^{
                                 // create a frame object and call the block;
-                                AVFrameData *frameData = [self createFrameData:_frame];
+                                AVFrameData *frameData = [self createFrameData:_frame trimPadding:YES];
                                 frameCallbackBlock(frameData);
                                 // signal the output sink semaphore
                                 dispatch_semaphore_signal(_outputSinkQueueSema);
@@ -200,6 +223,7 @@
     });
     return 0;
 }
+
 
 +(UIImage *)imageFromAVPicture:(unsigned char **)picData
                       lineSize:(int *) linesize
@@ -315,6 +339,7 @@
 
 -(void)dealloc
 {
+    dispatch_group_wait(_decode_queue_group, DISPATCH_TIME_FOREVER);
     [self dealloc_helper];
 }
 
