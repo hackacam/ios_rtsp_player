@@ -11,169 +11,152 @@
 #import <FFmpegDecoder/libavcodec/avcodec.h>
 #import <FFmpegDecoder/libavformat/avformat.h>
 #import <FFmpegDecoder/libswscale/swscale.h>
+#include <libkern/OSAtomic.h>
 
 @interface AVFrameData : NSObject
 @property (nonatomic, strong) NSMutableData *colorPlane0;
 @property (nonatomic, strong) NSMutableData *colorPlane1;
 @property (nonatomic, strong) NSMutableData *colorPlane2;
-@property (nonatomic, strong) NSNumber      *lineWidth0;
-@property (nonatomic, strong) NSNumber      *lineWidth1;
-@property (nonatomic, strong) NSNumber      *lineWidth2;
+@property (nonatomic, strong) NSNumber      *lineSize0;
+@property (nonatomic, strong) NSNumber      *lineSize1;
+@property (nonatomic, strong) NSNumber      *lineSize2;
 @property (nonatomic, strong) NSNumber      *width;
 @property (nonatomic, strong) NSNumber      *height;
 @property (nonatomic, strong) NSDate        *presentationTime;
+
+-(id) initWithAVFrame: (AVFrame *) frame;
+
 @end
 @implementation AVFrameData
 @synthesize colorPlane0=_colorPlane0;
 @synthesize colorPlane1=_colorPlane1;
 @synthesize colorPlane2=_colorPlane2;
-@synthesize lineWidth0=_lineWidth0;
-@synthesize lineWidth1=_lineWidth1;
-@synthesize lineWidth2=_lineWidth2;
+@synthesize lineSize0=_lineSize0;
+@synthesize lineSize1=_lineSize1;
+@synthesize lineSize2=_lineSize2;
 @synthesize width=_width;
 @synthesize height=_height;
 @synthesize presentationTime=_presentationTime;
+
+-(id) initWithAVFrame: (AVFrame *) frame
+{
+    self = [super init];
+    self.colorPlane0 = [[NSMutableData alloc] initWithBytes:frame->data[0] length:frame->linesize[0]];
+    self.colorPlane1 = [[NSMutableData alloc] initWithBytes:frame->data[1] length:frame->linesize[1]];
+    self.colorPlane2 = [[NSMutableData alloc] initWithBytes:frame->data[2] length:frame->linesize[2]];
+    self.lineSize0 = [[NSNumber alloc] initWithInt:frame->linesize[0]];
+    self.lineSize1 = [[NSNumber alloc] initWithInt:frame->linesize[1]];
+    self.lineSize2 = [[NSNumber alloc] initWithInt:frame->linesize[2]];
+    self.width = [[NSNumber alloc] initWithInt:frame->width];
+    self.height = [[NSNumber alloc] initWithInt:frame->height];
+
+    return self;
+}
+
 @end
 
 @interface FfmpegWrapper(){
-    AVFormatContext *pFormatCtx;
-    AVCodecContext  *pCodecCtx;
-    AVCodec         *pCodec;
-    AVFrame         *pFrame;
-    AVFrame         *pFrameRGB;
-    AVPacket        packet;
-    uint8_t         *buffer;
-    AVDictionary    *optionsDict;
-    struct SwsContext      *sws_ctx;
-    int videoStream;
+    AVFormatContext *_formatCtx;
+    AVCodecContext  *_codecCtx;
+    AVCodec         *_codec;
+    AVFrame         *_frame;
+    AVPacket        _packet;
+    AVDictionary    *_optionsDict;
+    int _videoStream;
+    
+    dispatch_semaphore_t _outputSinkQueueSema;
+    
+    volatile bool _stopDecode;
 }
 
-@property (nonatomic, strong) NSMutableArray * outputImageArray;
-@property (nonatomic, strong) UIImage *outputImage;
 @end
 
 @implementation FfmpegWrapper
-
-@synthesize pauseDecode = _pauseDecode;
-@synthesize outputImageArray = _outputImageArray;
-@synthesize outputImage = _outputImage;
-
--(NSMutableArray *) outputImageArray
-{
-    if (!_outputImageArray){
-        _outputImageArray = [[NSMutableArray alloc] init];
-    }
-    return _outputImageArray;
-}
-
--(NSNumber *) pauseDecode
-{
-    if (!_pauseDecode){
-        _pauseDecode = [NSNumber numberWithInt:0];
-    }
-    return _pauseDecode;
-}
 
 -(id) init
 {
     self=[super init];
     // initialize all instance variables
-    pFormatCtx = NULL;
-    pCodecCtx = NULL;
-    pCodec = NULL;
-    pFrame = NULL;
-    pFrameRGB = NULL;
-    buffer = NULL;
-    optionsDict = NULL;
-    sws_ctx = NULL;
+    _formatCtx = NULL;
+    _codecCtx = NULL;
+    _codec = NULL;
+    _frame = NULL;
+    _optionsDict = NULL;
     
     // register av
     av_register_all();
     avformat_network_init();
     
+    // setup output queue depth;
+    _outputSinkQueueSema = dispatch_semaphore_create((long)(5));
+    
+    // set memory barrier
+    OSMemoryBarrier();
+    _stopDecode=false;
+    
     return self;
 }
 
--(int) connectRTSPServer:(NSString *)url
+-(int) openUrl: (NSString *) url
 {
+    if (_formatCtx!=NULL || _codec!=NULL){
+        return -1;  //url already opened
+    }
+    
     // open video stream
     AVDictionary *serverOpt = NULL;
     av_dict_set(&serverOpt, "rtsp_transport", "tcp", 0);
-    if (avformat_open_input(&pFormatCtx, [url UTF8String], NULL, &serverOpt)!=0){
+    if (avformat_open_input(&_formatCtx, [url UTF8String], NULL, &serverOpt)!=0){
         NSLog(@"error opening stream");
+        [self dealloc_helper];
         return -1; // Couldn't open file
     }
-
-    // a hack
-//    pFormatCtx->streams[0]->codec->width=1920;
     
     // Retrieve stream information
     AVDictionary * options = NULL;
     av_dict_set(&options, "analyzeduration", "1000000", 0);
     
-    if(avformat_find_stream_info(pFormatCtx, &options)<0)
+    if(avformat_find_stream_info(_formatCtx, &options)<0){
+        [self dealloc_helper];
         return -1; // Couldn't find stream information
+    }
     
     // Dump information about file onto standard error
-    av_dump_format(pFormatCtx, 0, [url UTF8String], 0);
+    av_dump_format(_formatCtx, 0, [url UTF8String], 0);
     
     // Find the first video stream
-    videoStream=-1;
-    for(int i=0; i<pFormatCtx->nb_streams; i++)
-        if(pFormatCtx->streams[i]->codec->codec_type==AVMEDIA_TYPE_VIDEO) {
-            videoStream=i;
+    _videoStream=-1;
+    for(int i=0; i<_formatCtx->nb_streams; i++)
+        if(_formatCtx->streams[i]->codec->codec_type==AVMEDIA_TYPE_VIDEO) {
+            _videoStream=i;
             break;
         }
-    if(videoStream==-1)
+    if(_videoStream==-1){
+        [self dealloc_helper];
         return -1; // Didn't find a video stream
+    }
     
     // Get a pointer to the codec context for the video stream
-    pCodecCtx=pFormatCtx->streams[videoStream]->codec;
+    _codecCtx=_formatCtx->streams[_videoStream]->codec;
     
     // Find the decoder for the video stream
-    pCodec=avcodec_find_decoder(pCodecCtx->codec_id);
-    if(pCodec==NULL) {
+    _codec=avcodec_find_decoder(_codecCtx->codec_id);
+    if(_codec==NULL) {
         fprintf(stderr, "Unsupported codec!\n");
+        [self dealloc_helper];
         return -1; // Codec not found
     }
     // Open codec
-    if(avcodec_open2(pCodecCtx, pCodec, &optionsDict)<0)
+    if(avcodec_open2(_codecCtx, _codec, &_optionsDict)<0)
+        [self dealloc_helper];
         return -1; // Could not open codec
     
     // Allocate video frame
-    pFrame=avcodec_alloc_frame();
-    
-    // Allocate an AVFrame structure
-    pFrameRGB=avcodec_alloc_frame();
-    if(pFrameRGB==NULL)
-        return -1;
-    
-    // Determine required buffer size and allocate buffer
-    int numBytes=avpicture_get_size(PIX_FMT_RGB24, pCodecCtx->width,
-                                    pCodecCtx->height);
-    buffer=(uint8_t *)av_malloc(numBytes*sizeof(uint8_t));
-    
-    sws_ctx =
-    sws_getContext
-    (
-     pCodecCtx->width,
-     pCodecCtx->height,
-     pCodecCtx->pix_fmt,
-     pCodecCtx->width,
-     pCodecCtx->height,
-     PIX_FMT_RGB24,
-     SWS_BILINEAR,
-     NULL,
-     NULL,
-     NULL
-     );
-    
-    // Assign appropriate parts of buffer to image planes in pFrameRGB
-    // Note that pFrameRGB is an AVFrame, but AVFrame is a superset
-    // of AVPicture
-    avpicture_fill((AVPicture *)pFrameRGB, buffer, PIX_FMT_RGB24,
-                   pCodecCtx->width, pCodecCtx->height);
-
+    _frame=avcodec_alloc_frame();
+    if (!_frame){
+        [self dealloc_helper];
+        return -1;  // Could not allocate frame buffer
+    }
     return 0;
 }
 
@@ -204,91 +187,78 @@
 	return image;
 }
 
--(int) startDecodingWithCallbackBlock: (void (^) (unsigned char * yData,
-                                                  int  yLineSize,
-                                                  unsigned char * uData,
-                                                  int  uLineSize,
-                                                  unsigned char * vData,
-                                                  int  vLineSize,
-                                                  unsigned long timestamp,
-                                                  int width,
-                                                  int height)) frameCallbackBlock
-                   imageCallbackBlock: (void (^) (UIImage * image,
-                                                  unsigned long timestamp)) imageCallbackBlock
+-(void) stopDecode
+{
+    _stopDecode = true;
+}
+
+-(int) startDecodingWithCallbackBlock: (void (^) (AVFrameData *frame)) frameCallbackBlock
+                      waitForConsumer: (BOOL) wait
                    completionCallback: (void (^)()) completion
 {
+    OSMemoryBarrier();
+    _stopDecode=false;
     dispatch_queue_t decodeQueue = dispatch_queue_create("decodeQueue", NULL);
+    dispatch_queue_t outputSinkQueue = dispatch_queue_create("outputSink", NULL);
     dispatch_async(decodeQueue, ^{
         int frameFinished;
-        NSLog(@"%@", self.pauseDecode);
-        while (av_read_frame(pFormatCtx, &packet)>=0 && [self.pauseDecode intValue]==0) {
-            // Is this a packet from the video stream?
-            if(packet.stream_index==videoStream) {
-                // Decode video frame
-                avcodec_decode_video2(pCodecCtx, pFrame, &frameFinished,
-                                      &packet);
-                
-                // Did we get a video frame?
-                if(frameFinished) {
-                    // run the block callback
-                    frameCallbackBlock(pFrame->data[0], pFrame->linesize[0],
-                                       pFrame->data[1], pFrame->linesize[1],
-                                       pFrame->data[2], pFrame->linesize[2],
-                                       av_frame_get_best_effort_timestamp(pFrame),
-                                       pFrame->width,
-                                       pFrame->height);
-//                    if (imageCallbackBlock){ // convert to UIImage
-                    sws_scale
-                    (
-                     sws_ctx,
-                     (uint8_t const * const *)pFrame->data,
-                     pFrame->linesize,
-                     0,
-                     pCodecCtx->height,
-                     pFrameRGB->data,
-                     pFrameRGB->linesize
-                     );
-                    UIImage *image = [self imageFromAVPicture:pFrameRGB->data
-                                                     lineSize:pFrameRGB->linesize
-                                                        width:pFrame->width height:pFrame->height];
+        OSMemoryBarrier();
+        while (self->_stopDecode==false){
+            if (av_read_frame(_formatCtx, &_packet)>=0) {
+                // Is this a packet from the video stream?
+                if(_packet.stream_index==_videoStream) {
+                    // Decode video frame
+                    avcodec_decode_video2(_codecCtx, _frame, &frameFinished,
+                                          &_packet);
                     
-                    if (self.outputImageArray.count < 8){
-                        [self.outputImageArray addObject:image];
+                    // Did we get a video frame?
+                    if(frameFinished) {
+                        // see if the queue is full;
+                        long waitSignal;
+                        if (wait){
+                            waitSignal = dispatch_semaphore_wait(_outputSinkQueueSema, DISPATCH_TIME_FOREVER);
+                        }else{
+                            waitSignal = dispatch_semaphore_wait(_outputSinkQueueSema, DISPATCH_TIME_NOW);
+                        }
+                        if (waitSignal==0){
+                            dispatch_async(outputSinkQueue, ^{
+                                // create a frame object and call the block;
+                                AVFrameData *frameData = [[AVFrameData alloc] initWithAVFrame:_frame];
+                                frameCallbackBlock(frameData);
+                                // signal the output sink semaphore
+                                dispatch_semaphore_signal(_outputSinkQueueSema);
+                            });
+                        }
                     }
-                    if (self.outputImageArray.count > 2) {
-                        self.outputImage = [self.outputImageArray objectAtIndex:0];
-                        [self.outputImageArray removeObjectAtIndex:0];
-                        imageCallbackBlock(self.outputImage, 0);
-                    }
-                    //                    }
                 }
+                
+                // Free the packet that was allocated by av_read_frame
+                av_free_packet(&_packet);
             }
-            
-            // Free the packet that was allocated by av_read_frame
-            av_free_packet(&packet);
         }
         completion();
     });
     return 0;
 }
 
--(void)dealloc {
-    // Free the RGB image
-    av_free(buffer);
-    av_free(pFrameRGB);
-    
+-(void)dealloc_helper
+{
     // Free the YUV frame
-    av_free(pFrame);
-    
+    if (_frame){
+        av_free(_frame);
+    }
     // Close the codec
-    if (pCodecCtx){
-        avcodec_close(pCodecCtx);
+    if (_codecCtx){
+        avcodec_close(_codecCtx);
     }
-    
     // Close the video src
-    if (pFormatCtx){
-        avformat_close_input(&pFormatCtx);
+    if (_formatCtx){
+        avformat_close_input(&_formatCtx);
     }
-
 }
+
+-(void)dealloc {
+    [self dealloc_helper];
+}
+
 @end

@@ -8,27 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+@class AVFrameData;
+
 @interface FfmpegWrapper : NSObject
 
 -(id) init;
 
 //-(id) initWithOutputFormat: (NSString *) format;
 
--(int) connectRTSPServer: (NSString *) url;
+-(int) openUrl: (NSString *) url;
 
--(int) startDecodingWithCallbackBlock: (void (^) (unsigned char * yData,
-                                                  int    yLineSize,
-                                                  unsigned char * uData,
-                                                  int    uLineSize,
-                                                  unsigned char * vData,
-                                                  int    vLineSize,
-                                                  unsigned long timestamp,
-                                                  int width,
-                                                  int height)) frameCallbackBlock
-                   imageCallbackBlock: (void (^) (UIImage * image,
-                                                  unsigned long timestamp)) imageCallbackBlock
+-(int) startDecodingWithCallbackBlock: (void (^) (AVFrameData *frame)) frameCallbackBlock
+                      waitForConsumer: (BOOL) wait
                    completionCallback: (void (^)()) completion;
 
-@property (nonatomic, strong) NSNumber * pauseDecode;
+-(void) stopDecode;
 
 @end
