@@ -13,20 +13,6 @@
 #import <FFmpegDecoder/libswscale/swscale.h>
 #include <libkern/OSAtomic.h>
 
-@interface AVFrameData : NSObject
-@property (nonatomic, strong) NSMutableData *colorPlane0;
-@property (nonatomic, strong) NSMutableData *colorPlane1;
-@property (nonatomic, strong) NSMutableData *colorPlane2;
-@property (nonatomic, strong) NSNumber      *lineSize0;
-@property (nonatomic, strong) NSNumber      *lineSize1;
-@property (nonatomic, strong) NSNumber      *lineSize2;
-@property (nonatomic, strong) NSNumber      *width;
-@property (nonatomic, strong) NSNumber      *height;
-@property (nonatomic, strong) NSDate        *presentationTime;
-
--(id) initWithAVFrame: (AVFrame *) frame;
-
-@end
 @implementation AVFrameData
 @synthesize colorPlane0=_colorPlane0;
 @synthesize colorPlane1=_colorPlane1;
@@ -37,21 +23,6 @@
 @synthesize width=_width;
 @synthesize height=_height;
 @synthesize presentationTime=_presentationTime;
-
--(id) initWithAVFrame: (AVFrame *) frame
-{
-    self = [super init];
-    self.colorPlane0 = [[NSMutableData alloc] initWithBytes:frame->data[0] length:frame->linesize[0]];
-    self.colorPlane1 = [[NSMutableData alloc] initWithBytes:frame->data[1] length:frame->linesize[1]];
-    self.colorPlane2 = [[NSMutableData alloc] initWithBytes:frame->data[2] length:frame->linesize[2]];
-    self.lineSize0 = [[NSNumber alloc] initWithInt:frame->linesize[0]];
-    self.lineSize1 = [[NSNumber alloc] initWithInt:frame->linesize[1]];
-    self.lineSize2 = [[NSNumber alloc] initWithInt:frame->linesize[2]];
-    self.width = [[NSNumber alloc] initWithInt:frame->width];
-    self.height = [[NSNumber alloc] initWithInt:frame->height];
-
-    return self;
-}
 
 @end
 
@@ -147,9 +118,10 @@
         return -1; // Codec not found
     }
     // Open codec
-    if(avcodec_open2(_codecCtx, _codec, &_optionsDict)<0)
+    if(avcodec_open2(_codecCtx, _codec, &_optionsDict)<0){
         [self dealloc_helper];
         return -1; // Could not open codec
+    }
     
     // Allocate video frame
     _frame=avcodec_alloc_frame();
@@ -160,31 +132,19 @@
     return 0;
 }
 
--(UIImage *)imageFromAVPicture:(unsigned char **)picData
-                      lineSize:(int *) linesize
-                         width:(int)width height:(int)height {
-	CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
-	CFDataRef data = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, picData[0], linesize[0]*height,kCFAllocatorNull);
-	CGDataProviderRef provider = CGDataProviderCreateWithCFData(data);
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGImageRef cgImage = CGImageCreate(width,
-									   height,
-									   8,
-									   24,
-									   linesize[0],
-									   colorSpace,
-									   bitmapInfo,
-									   provider,
-									   NULL,
-									   NO,
-									   kCGRenderingIntentDefault);
-	CGColorSpaceRelease(colorSpace);
-	UIImage *image = [UIImage imageWithCGImage:cgImage];
-	CGImageRelease(cgImage);
-	CGDataProviderRelease(provider);
-	CFRelease(data);
-	
-	return image;
+-(AVFrameData *) createFrameData: (AVFrame *) frame
+{
+    AVFrameData *frameData = [[AVFrameData alloc] init];
+    frameData.colorPlane0 = [[NSMutableData alloc] initWithBytes:frame->data[0] length:frame->linesize[0]*frame->height];
+    frameData.colorPlane1 = [[NSMutableData alloc] initWithBytes:frame->data[1] length:frame->linesize[1]*frame->height/2];
+    frameData.colorPlane2 = [[NSMutableData alloc] initWithBytes:frame->data[2] length:frame->linesize[2]*frame->height/2];
+    frameData.lineSize0 = [[NSNumber alloc] initWithInt:frame->linesize[0]];
+    frameData.lineSize1 = [[NSNumber alloc] initWithInt:frame->linesize[1]];
+    frameData.lineSize2 = [[NSNumber alloc] initWithInt:frame->linesize[2]];
+    frameData.width = [[NSNumber alloc] initWithInt:frame->width];
+    frameData.height = [[NSNumber alloc] initWithInt:frame->height];
+    
+    return frameData;
 }
 
 -(void) stopDecode
@@ -223,7 +183,7 @@
                         if (waitSignal==0){
                             dispatch_async(outputSinkQueue, ^{
                                 // create a frame object and call the block;
-                                AVFrameData *frameData = [[AVFrameData alloc] initWithAVFrame:_frame];
+                                AVFrameData *frameData = [self createFrameData:_frame];
                                 frameCallbackBlock(frameData);
                                 // signal the output sink semaphore
                                 dispatch_semaphore_signal(_outputSinkQueueSema);
@@ -239,6 +199,102 @@
         completion();
     });
     return 0;
+}
+
++(UIImage *)imageFromAVPicture:(unsigned char **)picData
+                      lineSize:(int *) linesize
+                         width:(int)width height:(int)height
+{
+	CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
+	CFDataRef data = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, picData[0], linesize[0]*height,kCFAllocatorNull);
+	CGDataProviderRef provider = CGDataProviderCreateWithCFData(data);
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	CGImageRef cgImage = CGImageCreate(width,
+									   height,
+									   8,
+									   24,
+									   linesize[0],
+									   colorSpace,
+									   bitmapInfo,
+									   provider,
+									   NULL,
+									   NO,
+									   kCGRenderingIntentDefault);
+	CGColorSpaceRelease(colorSpace);
+	UIImage *image = [UIImage imageWithCGImage:cgImage];
+	CGImageRelease(cgImage);
+	CGDataProviderRelease(provider);
+	CFRelease(data);
+	
+	return image;
+}
+
++(UIImage *) convertFrameDataToImage: (AVFrameData *) avFrameData
+{
+    // Allocate an AVFrame structure
+    AVFrame *pFrameRGB=avcodec_alloc_frame();
+    if(pFrameRGB==NULL)
+        return nil;
+    
+    // Determine required buffer size and allocate buffer
+    int numBytes=avpicture_get_size(PIX_FMT_RGB24, avFrameData.width.intValue,
+                                    avFrameData.height.intValue);
+    uint8_t *buffer=(uint8_t *)av_malloc(numBytes*sizeof(uint8_t));
+    
+    struct SwsContext *sws_ctx =
+    sws_getContext
+    (
+     avFrameData.width.intValue,
+     avFrameData.height.intValue,
+     PIX_FMT_YUV420P,
+     avFrameData.width.intValue,
+     avFrameData.height.intValue,
+     PIX_FMT_RGB24,
+     SWS_BILINEAR,
+     NULL,
+     NULL,
+     NULL
+     );
+    
+    // Assign appropriate parts of buffer to image planes in pFrameRGB
+    // Note that pFrameRGB is an AVFrame, but AVFrame is a superset
+    // of AVPicture
+    avpicture_fill((AVPicture *)pFrameRGB, buffer, PIX_FMT_RGB24,
+                   avFrameData.width.intValue, avFrameData.height.intValue);
+    
+    uint8_t *data[AV_NUM_DATA_POINTERS];
+    int linesize[AV_NUM_DATA_POINTERS];
+    for (int i=0; i<AV_NUM_DATA_POINTERS; i++){
+        data[i] = NULL;
+        linesize[i] = 0;
+    }
+    data[0]=(uint8_t*)(avFrameData.colorPlane0.bytes);
+    data[1]=(uint8_t*)(avFrameData.colorPlane1.bytes);
+    data[2]=(uint8_t*)(avFrameData.colorPlane2.bytes);
+    linesize[0]=avFrameData.lineSize0.intValue;
+    linesize[1]=avFrameData.lineSize1.intValue;
+    linesize[2]=avFrameData.lineSize2.intValue;
+    
+//    sws_scale
+//    (
+//     sws_ctx,
+//     (uint8_t const * const *)data,
+//     linesize,
+//     0,
+//     avFrameData.width.intValue,
+//     pFrameRGB->data,
+//     pFrameRGB->linesize
+//     );
+//    UIImage *image = [self imageFromAVPicture:pFrameRGB->data
+//                                     lineSize:pFrameRGB->linesize
+//                                        width:avFrameData.width.intValue height:avFrameData.height.intValue];
+    
+    // Free the RGB image
+    av_free(buffer);
+    av_free(pFrameRGB);
+
+    UIImage *image = nil;
+    return image;
 }
 
 -(void)dealloc_helper
@@ -257,7 +313,8 @@
     }
 }
 
--(void)dealloc {
+-(void)dealloc
+{
     [self dealloc_helper];
 }
 

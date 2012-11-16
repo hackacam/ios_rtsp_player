@@ -8,7 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@class AVFrameData;
+@interface AVFrameData : NSObject
+@property (nonatomic, strong) NSMutableData *colorPlane0;
+@property (nonatomic, strong) NSMutableData *colorPlane1;
+@property (nonatomic, strong) NSMutableData *colorPlane2;
+@property (nonatomic, strong) NSNumber      *lineSize0;
+@property (nonatomic, strong) NSNumber      *lineSize1;
+@property (nonatomic, strong) NSNumber      *lineSize2;
+@property (nonatomic, strong) NSNumber      *width;
+@property (nonatomic, strong) NSNumber      *height;
+@property (nonatomic, strong) NSDate        *presentationTime;
+@end
 
 @interface FfmpegWrapper : NSObject
 
@@ -23,5 +33,7 @@
                    completionCallback: (void (^)()) completion;
 
 -(void) stopDecode;
+
++(UIImage *) convertFrameDataToImage: (AVFrameData *) avFrameData;
 
 @end

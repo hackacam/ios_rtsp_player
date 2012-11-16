@@ -26,7 +26,7 @@
 
 - (void)testExample
 {
-    STFail(@"Unit tests are not implemented yet in rtsp_playerTests");
+//    STFail(@"Unit tests are not implemented yet in rtsp_playerTests");
 }
 
 @end
