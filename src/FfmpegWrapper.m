@@ -204,9 +204,7 @@
                             waitSignal = dispatch_semaphore_wait(_outputSinkQueueSema, DISPATCH_TIME_NOW);
                         }
                         if (waitSignal==0){
-                            printf("pushed a frame to output block\n");
                             dispatch_async(outputSinkQueue, ^{
-                                printf("started processing an output.\n");
                                 // create a frame object and call the block;
                                 AVFrameData *frameData = [self createFrameData:_frame trimPadding:YES];
                                 frameCallbackBlock(frameData);
