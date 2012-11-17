@@ -204,7 +204,9 @@
                             waitSignal = dispatch_semaphore_wait(_outputSinkQueueSema, DISPATCH_TIME_NOW);
                         }
                         if (waitSignal==0){
+                            printf("pushed a frame to output block\n");
                             dispatch_async(outputSinkQueue, ^{
+                                printf("started processing an output.\n");
                                 // create a frame object and call the block;
                                 AVFrameData *frameData = [self createFrameData:_frame trimPadding:YES];
                                 frameCallbackBlock(frameData);
@@ -299,25 +301,24 @@
     linesize[1]=avFrameData.lineSize1.intValue;
     linesize[2]=avFrameData.lineSize2.intValue;
     
-//    sws_scale
-//    (
-//     sws_ctx,
-//     (uint8_t const * const *)data,
-//     linesize,
-//     0,
-//     avFrameData.width.intValue,
-//     pFrameRGB->data,
-//     pFrameRGB->linesize
-//     );
-//    UIImage *image = [self imageFromAVPicture:pFrameRGB->data
-//                                     lineSize:pFrameRGB->linesize
-//                                        width:avFrameData.width.intValue height:avFrameData.height.intValue];
+    sws_scale
+    (
+     sws_ctx,
+     (uint8_t const * const *)data,
+     linesize,
+     0,
+     avFrameData.width.intValue,
+     pFrameRGB->data,
+     pFrameRGB->linesize
+     );
+    UIImage *image = [self imageFromAVPicture:pFrameRGB->data
+                                     lineSize:pFrameRGB->linesize
+                                        width:avFrameData.width.intValue height:avFrameData.height.intValue];
     
     // Free the RGB image
     av_free(buffer);
     av_free(pFrameRGB);
 
-    UIImage *image = nil;
     return image;
 }
 

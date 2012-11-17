@@ -8,8 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		615FB2B41655856E00D50098 /* FfmpegWrapperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */; };
-		615FB2B9165594D300D50098 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 615FB2B8165594D300D50098 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */; };
-		6162A72F165613D900507113 /* itu.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 6162A72E165613D900507113 /* itu.h264 */; };
+		6194CE3216577AC60009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */; };
+		6194CE3316577B000009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */; };
+		6194CE3416577B700009FF15 /* testOutput720x480_yuv420_1.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54971656C672005C220D /* testOutput720x480_yuv420_1.yuv */; };
+		6194CE3616577F250009FF15 /* testOutput720x480_yuv420_1.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54971656C672005C220D /* testOutput720x480_yuv420_1.yuv */; };
+		6194CE3716577F250009FF15 /* testOutput720x480_yuv420_2.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54981656C672005C220D /* testOutput720x480_yuv420_2.yuv */; };
+		6194CE3816577F250009FF15 /* testOutput720x480_yuv420_3.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54991656C672005C220D /* testOutput720x480_yuv420_3.yuv */; };
+		6194CE3916577F250009FF15 /* testOutput720x480_yuv420_4.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC549A1656C672005C220D /* testOutput720x480_yuv420_4.yuv */; };
 		619E50351655765400463A94 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50341655765400463A94 /* UIKit.framework */; };
 		619E50371655765400463A94 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50361655765400463A94 /* Foundation.framework */; };
 		619E50391655765400463A94 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E50381655765400463A94 /* CoreGraphics.framework */; };
@@ -28,10 +33,6 @@
 		619E5075165576E800463A94 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E5073165576E800463A94 /* RootViewController.m */; };
 		619E5077165576F600463A94 /* FFmpegDecoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619E5076165576F600463A94 /* FFmpegDecoder.framework */; };
 		619E508C16557DFC00463A94 /* rtsp_playerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 619E508B16557DFC00463A94 /* rtsp_playerTests.m */; };
-		61EC549B1656C672005C220D /* testOutput720x480_yuv420_1.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54971656C672005C220D /* testOutput720x480_yuv420_1.yuv */; };
-		61EC549C1656C672005C220D /* testOutput720x480_yuv420_2.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54981656C672005C220D /* testOutput720x480_yuv420_2.yuv */; };
-		61EC549D1656C672005C220D /* testOutput720x480_yuv420_3.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54991656C672005C220D /* testOutput720x480_yuv420_3.yuv */; };
-		61EC549E1656C672005C220D /* testOutput720x480_yuv420_4.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC549A1656C672005C220D /* testOutput720x480_yuv420_4.yuv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,8 +48,7 @@
 /* Begin PBXFileReference section */
 		615FB2B21655856E00D50098 /* FfmpegWrapperTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FfmpegWrapperTest.h; path = src_tests/FfmpegWrapperTest.h; sourceTree = SOURCE_ROOT; };
 		615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FfmpegWrapperTest.m; path = src_tests/FfmpegWrapperTest.m; sourceTree = SOURCE_ROOT; };
-		615FB2B8165594D300D50098 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264"; sourceTree = "<group>"; };
-		6162A72E165613D900507113 /* itu.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = itu.h264; sourceTree = "<group>"; };
+		6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264"; sourceTree = "<group>"; };
 		619E50301655765400463A94 /* rtsp_player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rtsp_player.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		619E50341655765400463A94 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		619E50361655765400463A94 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -149,7 +149,6 @@
 		619E503B1655765400463A94 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6162A72E165613D900507113 /* itu.h264 */,
 				619E50431655765400463A94 /* AppDelegate.h */,
 				619E50441655765400463A94 /* AppDelegate.m */,
 				619E503C1655765400463A94 /* rtsp_player-Info.plist */,
@@ -175,11 +174,11 @@
 		619E505F1655765500463A94 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */,
 				61EC54971656C672005C220D /* testOutput720x480_yuv420_1.yuv */,
 				61EC54981656C672005C220D /* testOutput720x480_yuv420_2.yuv */,
 				61EC54991656C672005C220D /* testOutput720x480_yuv420_3.yuv */,
 				61EC549A1656C672005C220D /* testOutput720x480_yuv420_4.yuv */,
-				615FB2B8165594D300D50098 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */,
 				619E50601655765500463A94 /* rtsp_playerTests-Info.plist */,
 				619E50611655765500463A94 /* InfoPlist.strings */,
 			);
@@ -279,12 +278,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6194CE3416577B700009FF15 /* testOutput720x480_yuv420_1.yuv in Resources */,
+				6194CE3316577B000009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */,
 				619E503F1655765400463A94 /* InfoPlist.strings in Resources */,
 				619E50471655765500463A94 /* Default.png in Resources */,
 				619E50491655765500463A94 /* Default@2x.png in Resources */,
 				619E504B1655765500463A94 /* Default-568h@2x.png in Resources */,
 				619E504E1655765500463A94 /* MainStoryboard.storyboard in Resources */,
-				6162A72F165613D900507113 /* itu.h264 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,12 +292,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6194CE3616577F250009FF15 /* testOutput720x480_yuv420_1.yuv in Resources */,
+				6194CE3716577F250009FF15 /* testOutput720x480_yuv420_2.yuv in Resources */,
+				6194CE3816577F250009FF15 /* testOutput720x480_yuv420_3.yuv in Resources */,
+				6194CE3916577F250009FF15 /* testOutput720x480_yuv420_4.yuv in Resources */,
+				6194CE3216577AC60009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */,
 				619E50631655765500463A94 /* InfoPlist.strings in Resources */,
-				615FB2B9165594D300D50098 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */,
-				61EC549B1656C672005C220D /* testOutput720x480_yuv420_1.yuv in Resources */,
-				61EC549C1656C672005C220D /* testOutput720x480_yuv420_2.yuv in Resources */,
-				61EC549D1656C672005C220D /* testOutput720x480_yuv420_3.yuv in Resources */,
-				61EC549E1656C672005C220D /* testOutput720x480_yuv420_4.yuv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
