@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		611C1E141658A45000BB3674 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611C1E131658A45000BB3674 /* QuartzCore.framework */; };
+		611C1E161658A45D00BB3674 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611C1E151658A45D00BB3674 /* OpenGLES.framework */; };
+		611C1E181658A46400BB3674 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611C1E171658A46400BB3674 /* GLKit.framework */; };
+		611C1E381658A7AB00BB3674 /* YUVDisplayGLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 611C1E371658A7AB00BB3674 /* YUVDisplayGLViewController.m */; };
 		615FB2B41655856E00D50098 /* FfmpegWrapperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */; };
 		6194CE3216577AC60009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */; };
 		6194CE3316577B000009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */; };
@@ -46,6 +50,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		611C1E131658A45000BB3674 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		611C1E151658A45D00BB3674 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		611C1E171658A46400BB3674 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		611C1E361658A7AB00BB3674 /* YUVDisplayGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUVDisplayGLViewController.h; sourceTree = "<group>"; };
+		611C1E371658A7AB00BB3674 /* YUVDisplayGLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YUVDisplayGLViewController.m; sourceTree = "<group>"; };
 		615FB2B21655856E00D50098 /* FfmpegWrapperTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FfmpegWrapperTest.h; path = src_tests/FfmpegWrapperTest.h; sourceTree = SOURCE_ROOT; };
 		615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FfmpegWrapperTest.m; path = src_tests/FfmpegWrapperTest.m; sourceTree = SOURCE_ROOT; };
 		6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264"; sourceTree = "<group>"; };
@@ -85,6 +94,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				611C1E181658A46400BB3674 /* GLKit.framework in Frameworks */,
+				611C1E161658A45D00BB3674 /* OpenGLES.framework in Frameworks */,
+				611C1E141658A45000BB3674 /* QuartzCore.framework in Frameworks */,
 				619E50351655765400463A94 /* UIKit.framework in Frameworks */,
 				619E50371655765400463A94 /* Foundation.framework in Frameworks */,
 				619E50391655765400463A94 /* CoreGraphics.framework in Frameworks */,
@@ -127,6 +139,9 @@
 		619E50331655765400463A94 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				611C1E171658A46400BB3674 /* GLKit.framework */,
+				611C1E151658A45D00BB3674 /* OpenGLES.framework */,
+				611C1E131658A45000BB3674 /* QuartzCore.framework */,
 				619E5076165576F600463A94 /* FFmpegDecoder.framework */,
 				619E50341655765400463A94 /* UIKit.framework */,
 				619E50361655765400463A94 /* Foundation.framework */,
@@ -192,6 +207,8 @@
 				619E5071165576E800463A94 /* FfmpegWrapper.m */,
 				619E5072165576E800463A94 /* RootViewController.h */,
 				619E5073165576E800463A94 /* RootViewController.m */,
+				611C1E361658A7AB00BB3674 /* YUVDisplayGLViewController.h */,
+				611C1E371658A7AB00BB3674 /* YUVDisplayGLViewController.m */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -328,6 +345,7 @@
 				619E50451655765400463A94 /* AppDelegate.m in Sources */,
 				619E5074165576E800463A94 /* FfmpegWrapper.m in Sources */,
 				619E5075165576E800463A94 /* RootViewController.m in Sources */,
+				611C1E381658A7AB00BB3674 /* YUVDisplayGLViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
