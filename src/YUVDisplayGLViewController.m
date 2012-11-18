@@ -14,13 +14,14 @@
 typedef struct {
     float Position[3];
     float Color[4];
+    float TexCoord[2];
 } Vertex;
 
 const Vertex Vertices[] = {
-    {{1, -1, 0}, {1, 0, 0, 1}},
-    {{1, 1, 0}, {0, 1, 0, 1}},
-    {{-1, 1, 0}, {0, 0, 1, 1}},
-    {{-1, -1, 0}, {0, 0, 0, 1}}
+    {{1, -1, 0}, {1, 1, 1, 1}, {0, 1}},
+    {{1, 1, 0}, {1, 1, 1, 1}, {0, 0}},
+    {{-1, 1, 0}, {1, 1, 1, 1}, {1, 0}},
+    {{-1, -1, 0}, {1, 1, 1, 1}, {1, 1}}
 };
 
 const GLubyte Indices[] = {
@@ -41,19 +42,51 @@ NSString *const vertexShaderString = SHADER_STRING
  
  varying vec4 DestinationColor; // 3
  
+ attribute vec2 TexCoordIn;
+ varying vec2 TexCoordOut;
+ 
  void main(void) { // 4
      DestinationColor = SourceColor; // 5
      gl_Position = Position; // 6
+     TexCoordOut = TexCoordIn; // New
+
  }
 );
 
 NSString *const rgbFragmentShaderString = SHADER_STRING
 (
- varying lowp vec4 DestinationColor; // 1
+// varying lowp vec4 DestinationColor; // 1
+// 
+// varying lowp vec2 TexCoordOut;
+// uniform sampler2D Texture;
+// 
+// void main(void) { // 2
+//     gl_FragColor = DestinationColor  * texture2D(Texture, TexCoordOut);
+// }
  
- void main(void) { // 2
-     gl_FragColor = DestinationColor; // 3
+ varying highp vec2 TexCoordOut;
+ uniform sampler2D s_texture_y;
+ uniform sampler2D s_texture_u;
+ uniform sampler2D s_texture_v;
+ 
+ void main()
+ {
+     highp float y = texture2D(s_texture_y, TexCoordOut).r;
+//     highp float u = texture2D(s_texture_u, TexCoordOut).r - 0.5;
+//     highp float v = texture2D(s_texture_v, TexCoordOut).r - 0.5;
+     highp float u = 1.0;
+     highp float v = 1.0;
+     
+//     highp float r = y +             1.402 * v;
+//     highp float g = y - 0.344 * u - 0.714 * v;
+//     highp float b = y + 1.772 * u;
+     highp float r = y;
+     highp float g = 0.0;
+     highp float b = 0.0;
+     
+     gl_FragColor = vec4(r,g,b,1.0);
  }
+ 
 );
 
 
@@ -68,12 +101,26 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     
     GLuint _positionSlot;
     GLuint _colorSlot;
+    
+    GLuint _yTexture;
+    GLuint _texCoordSlot;
+//    GLuint _textureUniform;
+    GLuint _yTextureUniform;
+    GLuint _uTextureUniform;
+    GLuint _vTextureUniform;
+    
+    // test code
+    GLuint _fishTexture;    
 }
+
 @property (strong, nonatomic) EAGLContext *context;
+@property (strong, nonatomic) NSData *testYUVInputData;
+
 @end
 
 @implementation YUVDisplayGLViewController
 @synthesize context = _context;
+@synthesize testYUVInputData = _testYUVInputData;
 
 - (void) awakeFromNib
 {
@@ -117,7 +164,14 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     
     [self setupGL];
     [self compileShaders];
+ 
+    // test code load sample yuv frame
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *referenceFramePath = [mainBundle pathForResource:@"testOutput720x480_yuv420_1" ofType:@"yuv"];
+    self.testYUVInputData = [NSData dataWithContentsOfFile:referenceFramePath];
     
+//    _fishTexture = [self setupTextureReference:@"item_powerup_fish.png"];
+    _yTexture = [self setupTexture:self.testYUVInputData width:720 height:480];
 }
 
 - (void)tearDownGL {
@@ -205,17 +259,27 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     glEnableVertexAttribArray(_positionSlot);
     glEnableVertexAttribArray(_colorSlot);
     
+    // set the shader slots
+    _texCoordSlot = glGetAttribLocation(programHandle, "TexCoordIn");
+    glEnableVertexAttribArray(_texCoordSlot);
+//    _textureUniform = glGetUniformLocation(programHandle, "Texture");
+    _yTextureUniform = glGetUniformLocation(programHandle, "s_texture_y");
+    _uTextureUniform = glGetUniformLocation(programHandle, "s_texture_u");
+    _vTextureUniform = glGetUniformLocation(programHandle, "s_texture_v");
 }
 
 #pragma mark - render code
 
-- (void)render {
+- (void)render
+{
     [EAGLContext setCurrentContext:self.context];
 //    glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
 //    glClear(GL_COLOR_BUFFER_BIT);
     
     // 1
-    glViewport(0, 0, 200, 200);
+    CGFloat scaleFactor = [[UIScreen mainScreen] scale];
+    glViewport(self.view.bounds.origin.x, self.view.bounds.origin.y,
+               self.view.bounds.size.width*scaleFactor, self.view.bounds.size.height*scaleFactor);
     
     // 2
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE,
@@ -223,14 +287,85 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
     
+    // load the texture
+    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE,
+                          sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+    
+    glActiveTexture(GL_TEXTURE0);
+//    glBindTexture(GL_TEXTURE_2D, _fishTexture);
+    glBindTexture(GL_TEXTURE_2D, _yTexture);
+//    glUniform1i(_textureUniform, 0);
+    glUniform1i(_yTextureUniform, 0);
+    glUniform1i(_uTextureUniform, 0);
+    glUniform1i(_vTextureUniform, 0);
+    
     // 3
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]),
                    GL_UNSIGNED_BYTE, 0);
     
     [self.context presentRenderbuffer:GL_RENDERBUFFER];
-//    [self.context]
+ 
+    
 }
 
+
+#pragma mark - texture setup
+
+- (GLuint)setupTexture:(NSData *)textureData width:(uint) width height:(uint) height
+{
+    
+    GLubyte *glTextureData = (GLubyte*)(textureData.bytes);
+    GLuint texName;
+    glGenTextures(1, &texName);
+    glBindTexture(GL_TEXTURE_2D, texName);
+
+
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, width, height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, glTextureData);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 100, 100, 0, GL_RGBA, GL_UNSIGNED_BYTE, glTextureData);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    return texName;
+}
+
+- (GLuint)setupTextureReference:(NSString *)fileName
+{
+    // 1
+    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
+    if (!spriteImage) {
+        NSLog(@"Failed to load image %@", fileName);
+        exit(1);
+    }
+    
+    // 2
+    size_t width = CGImageGetWidth(spriteImage);
+    size_t height = CGImageGetHeight(spriteImage);
+    
+    GLubyte * spriteData = (GLubyte *) calloc(width*height*4, sizeof(GLubyte));
+    
+    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4,
+                                                       CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
+    
+    // 3
+    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
+    
+    CGContextRelease(spriteContext);
+    
+    // 4
+    GLuint texName;
+    glGenTextures(1, &texName);
+    glBindTexture(GL_TEXTURE_2D, texName);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+    
+    free(spriteData);        
+    return texName;    
+}
 
 #pragma mark - GLKViewDelegate
 
@@ -243,7 +378,8 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
 
 #pragma mark - GLKViewControllerDelegate
 
-- (void) update{
+- (void) update
+{
     if (_increasing) {
         _curRed += 1.0 * self.timeSinceLastUpdate;
     } else {

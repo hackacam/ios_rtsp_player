@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		611275C71659677E006BCA9E /* item_powerup_fish.png in Resources */ = {isa = PBXBuildFile; fileRef = 611275C61659677E006BCA9E /* item_powerup_fish.png */; };
 		611C1E141658A45000BB3674 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611C1E131658A45000BB3674 /* QuartzCore.framework */; };
 		611C1E161658A45D00BB3674 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611C1E151658A45D00BB3674 /* OpenGLES.framework */; };
 		611C1E181658A46400BB3674 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611C1E171658A46400BB3674 /* GLKit.framework */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		611275C61659677E006BCA9E /* item_powerup_fish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = item_powerup_fish.png; path = rtsp_playerTests/item_powerup_fish.png; sourceTree = SOURCE_ROOT; };
 		611C1E131658A45000BB3674 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		611C1E151658A45D00BB3674 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		611C1E171658A46400BB3674 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -164,6 +166,7 @@
 		619E503B1655765400463A94 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				611275C61659677E006BCA9E /* item_powerup_fish.png */,
 				619E50431655765400463A94 /* AppDelegate.h */,
 				619E50441655765400463A94 /* AppDelegate.m */,
 				619E503C1655765400463A94 /* rtsp_player-Info.plist */,
@@ -302,6 +305,7 @@
 				619E50491655765500463A94 /* Default@2x.png in Resources */,
 				619E504B1655765500463A94 /* Default-568h@2x.png in Resources */,
 				619E504E1655765500463A94 /* MainStoryboard.storyboard in Resources */,
+				611275C71659677E006BCA9E /* item_powerup_fish.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
