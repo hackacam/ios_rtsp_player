@@ -72,17 +72,19 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
  void main()
  {
      highp float y = texture2D(s_texture_y, TexCoordOut).r;
-//     highp float u = texture2D(s_texture_u, TexCoordOut).r - 0.5;
-//     highp float v = texture2D(s_texture_v, TexCoordOut).r - 0.5;
-     highp float u = 1.0;
-     highp float v = 1.0;
+     highp float u = texture2D(s_texture_u, TexCoordOut).r - 0.5;
+     highp float v = texture2D(s_texture_v, TexCoordOut).r - 0.5;
+//     highp float u = texture2D(s_texture_u, TexCoordOut).r;
+//     highp float v = texture2D(s_texture_v, TexCoordOut).r;
+//     highp float u = 1.0;
+//     highp float v = 1.0;
      
-//     highp float r = y +             1.402 * v;
-//     highp float g = y - 0.344 * u - 0.714 * v;
-//     highp float b = y + 1.772 * u;
-     highp float r = y;
-     highp float g = 0.0;
-     highp float b = 0.0;
+     highp float r = y +             1.402 * v;
+     highp float g = y - 0.344 * u - 0.714 * v;
+     highp float b = y + 1.772 * u;
+//     highp float r = y;
+//     highp float g = 0.0;
+//     highp float b = 0.0;
      
      gl_FragColor = vec4(r,g,b,1.0);
  }
@@ -103,6 +105,8 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     GLuint _colorSlot;
     
     GLuint _yTexture;
+    GLuint _uTexture;
+    GLuint _vTexture;
     GLuint _texCoordSlot;
 //    GLuint _textureUniform;
     GLuint _yTextureUniform;
@@ -170,8 +174,15 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     NSString *referenceFramePath = [mainBundle pathForResource:@"testOutput720x480_yuv420_1" ofType:@"yuv"];
     self.testYUVInputData = [NSData dataWithContentsOfFile:referenceFramePath];
     
+    NSData *ydata = [NSData dataWithBytes:self.testYUVInputData.bytes length:720*480];
+    NSData *udata = [NSData dataWithBytes:(void *)((uint8_t*)(self.testYUVInputData.bytes)+ydata.length) length:720*480/4];
+    NSData *vdata = [NSData dataWithBytes:(void *)((uint8_t*)(self.testYUVInputData.bytes)+ydata.length+udata.length) length:720*480/4];
+    
+    
 //    _fishTexture = [self setupTextureReference:@"item_powerup_fish.png"];
-    _yTexture = [self setupTexture:self.testYUVInputData width:720 height:480];
+    _yTexture = [self setupTexture:ydata width:720 height:480];
+    _uTexture = [self setupTexture:udata width:360 height:240];
+    _vTexture = [self setupTexture:vdata width:360 height:240];
 }
 
 - (void)tearDownGL {
@@ -296,8 +307,14 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     glBindTexture(GL_TEXTURE_2D, _yTexture);
 //    glUniform1i(_textureUniform, 0);
     glUniform1i(_yTextureUniform, 0);
-    glUniform1i(_uTextureUniform, 0);
-    glUniform1i(_vTextureUniform, 0);
+    
+    glActiveTexture(GL_TEXTURE0+1);
+    glBindTexture(GL_TEXTURE_2D, _uTexture);
+    glUniform1i(_uTextureUniform, 1);
+    
+    glActiveTexture(GL_TEXTURE0+2);
+    glBindTexture(GL_TEXTURE_2D, _vTexture);
+    glUniform1i(_vTextureUniform, 2);
     
     // 3
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]),
