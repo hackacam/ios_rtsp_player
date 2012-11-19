@@ -320,6 +320,11 @@
 
 -(void)dealloc_helper
 {
+    // Free the YUV frame
+    if (_frame){
+        av_free(_frame);
+    }
+
     // Close the codec
     if (_codecCtx){
         avcodec_close(_codecCtx);
@@ -327,10 +332,6 @@
     // Close the video src
     if (_formatCtx){
         avformat_close_input(&_formatCtx);
-    }
-    // Free the YUV frame
-    if (_frame){
-        av_freep(_frame);
     }
 
 }
