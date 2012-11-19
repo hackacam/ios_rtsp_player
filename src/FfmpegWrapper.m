@@ -182,11 +182,11 @@
     OSMemoryBarrier();
     _stopDecode=false;
     dispatch_queue_t decodeQueue = dispatch_queue_create("decodeQueue", NULL);
-    dispatch_queue_t outputSinkQueue = dispatch_queue_create("outputSink", NULL);
-    dispatch_group_async(_decode_queue_group, decodeQueue, ^{
+    dispatch_async(decodeQueue, ^{
         int frameFinished;
         OSMemoryBarrier();
         while (self->_stopDecode==false){
+            @autoreleasepool {
             if (av_read_frame(_formatCtx, &_packet)>=0) {
                 // Is this a packet from the video stream?
                 if(_packet.stream_index==_videoStream) {
@@ -196,27 +196,15 @@
                     
                     // Did we get a video frame?
                     if(frameFinished) {
-                        // see if the queue is full;
-                        long waitSignal;
-                        if (wait){
-                            waitSignal = dispatch_semaphore_wait(_outputSinkQueueSema, DISPATCH_TIME_FOREVER);
-                        }else{
-                            waitSignal = dispatch_semaphore_wait(_outputSinkQueueSema, DISPATCH_TIME_NOW);
-                        }
-                        if (waitSignal==0){
-                            dispatch_async(outputSinkQueue, ^{
-                                // create a frame object and call the block;
-                                AVFrameData *frameData = [self createFrameData:_frame trimPadding:YES];
-                                frameCallbackBlock(frameData);
-                                // signal the output sink semaphore
-                                dispatch_semaphore_signal(_outputSinkQueueSema);
-                            });
-                        }
+                        // create a frame object and call the block;
+                        AVFrameData *frameData = [self createFrameData:_frame trimPadding:YES];
+                        frameCallbackBlock(frameData);
                     }
                 }
                 
                 // Free the packet that was allocated by av_read_frame
                 av_free_packet(&_packet);
+            }
             }
         }
         completion();
@@ -338,8 +326,11 @@
 
 -(void)dealloc
 {
-    dispatch_group_wait(_decode_queue_group, DISPATCH_TIME_FOREVER);
+//    dispatch_group_wait(_decode_queue_group, DISPATCH_TIME_FOREVER);
+    [self stopDecode];
+    sleep(1);
     [self dealloc_helper];
+    NSLog(@"cleaned up...");
 }
 
 @end

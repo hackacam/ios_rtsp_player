@@ -12,13 +12,25 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="788"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uyv-hm-LgE">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4ZN-t5-Eo4">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zju-SS-rKY">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="URL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2b-En-0R4">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="130" id="To7-4e-vQj"/>
-                                    <constraint firstAttribute="width" constant="242" id="pTM-p4-VYc"/>
+                                    <constraint firstAttribute="width" constant="130" id="GbG-kM-3OD"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pC-hp-KFK">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="test">
+                                <state key="normal" title="Stream Video">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -26,10 +38,55 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="FhI-D1-qHX" kind="push" id="vyz-P1-1fZ"/>
+                                    <action selector="startStreaming:" destination="2" eventType="touchUpInside" id="qw5-FL-F3Y"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVx-hC-7cY">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4M-Ul-hff">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Camera Configuration">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W2S-Q6-93W">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Stop Stream">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPh-Sv-Smg">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="file test">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="setTestFileUrl:" destination="2" eventType="touchUpInside" id="KLj-gq-M40"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Thb-aK-YoB">
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="241" id="Sds-xb-8jt"/>
+                                    <constraint firstAttribute="height" constant="199" id="d4Y-dZ-ZIK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W4z-u5-hEQ">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="53" id="3Wd-xA-oKg"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Button">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -39,19 +96,40 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="testYUVDisplay:" destination="2" eventType="touchUpInside" id="oVw-tP-bAw"/>
+                                    <action selector="testYUVDisplay:" destination="2" eventType="touchUpInside" id="6cu-Ll-E4h"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="fVx-hC-7cY" firstAttribute="top" secondItem="5" secondAttribute="top" constant="147" id="2lh-1y-AYf"/>
-                            <constraint firstItem="uyv-hm-LgE" firstAttribute="top" secondItem="5" secondAttribute="top" constant="466" id="5ZN-U4-VxC"/>
-                            <constraint firstItem="fVx-hC-7cY" firstAttribute="centerX" secondItem="5" secondAttribute="centerX" type="default" id="GrN-ft-IV5"/>
-                            <constraint firstItem="fVx-hC-7cY" firstAttribute="centerX" secondItem="uyv-hm-LgE" secondAttribute="centerX" type="default" id="OL3-1K-7tI"/>
+                            <constraint firstItem="W4z-u5-hEQ" firstAttribute="trailing" secondItem="5" secondAttribute="trailing" type="default" id="1zM-rd-Atu"/>
+                            <constraint firstItem="f2b-En-0R4" firstAttribute="leading" secondItem="fPh-Sv-Smg" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="2bt-xe-tC9"/>
+                            <constraint firstItem="W2S-Q6-93W" firstAttribute="top" secondItem="5" secondAttribute="top" constant="241" id="5BI-4e-2ue"/>
+                            <constraint firstItem="f2b-En-0R4" firstAttribute="top" secondItem="5" secondAttribute="top" constant="77" id="5ih-kT-mNQ"/>
+                            <constraint firstItem="v4M-Ul-hff" firstAttribute="centerX" secondItem="zju-SS-rKY" secondAttribute="centerX" type="default" id="6Hc-PA-RqT"/>
+                            <constraint firstItem="4ZN-t5-Eo4" firstAttribute="top" secondItem="5" secondAttribute="top" constant="114" id="7ob-Yd-xvb"/>
+                            <constraint firstItem="0pC-hp-KFK" firstAttribute="top" secondItem="5" secondAttribute="top" constant="167" id="A04-gi-NQ2"/>
+                            <constraint firstItem="zju-SS-rKY" firstAttribute="trailing" secondItem="Thb-aK-YoB" secondAttribute="trailing" type="default" id="CJ1-1k-HtH"/>
+                            <constraint firstItem="fPh-Sv-Smg" firstAttribute="top" secondItem="5" secondAttribute="top" constant="11" id="TkP-8q-42o"/>
+                            <constraint firstItem="Thb-aK-YoB" firstAttribute="top" secondItem="5" secondAttribute="top" constant="337" id="TmB-BT-Q0F"/>
+                            <constraint firstAttribute="bottom" secondItem="zju-SS-rKY" secondAttribute="bottom" constant="103" id="W87-ec-heb"/>
+                            <constraint firstItem="Thb-aK-YoB" firstAttribute="centerX" secondItem="5" secondAttribute="centerX" type="default" id="aLE-8r-3bp"/>
+                            <constraint firstItem="W4z-u5-hEQ" firstAttribute="baseline" secondItem="v4M-Ul-hff" secondAttribute="baseline" type="default" id="aWB-B6-tIT"/>
+                            <constraint firstAttribute="bottom" secondItem="v4M-Ul-hff" secondAttribute="bottom" constant="25" id="aaF-v6-o2W"/>
+                            <constraint firstItem="Thb-aK-YoB" firstAttribute="centerX" secondItem="W2S-Q6-93W" secondAttribute="centerX" type="default" id="aly-07-eom"/>
+                            <constraint firstItem="W2S-Q6-93W" firstAttribute="centerX" secondItem="0pC-hp-KFK" secondAttribute="centerX" type="default" id="aoQ-FW-H9i"/>
+                            <constraint firstItem="zju-SS-rKY" firstAttribute="leading" secondItem="4ZN-t5-Eo4" secondAttribute="leading" type="default" id="dHX-Ki-eOx"/>
+                            <constraint firstItem="4ZN-t5-Eo4" firstAttribute="centerX" secondItem="f2b-En-0R4" secondAttribute="centerX" type="default" id="ghK-AT-h2u"/>
+                            <constraint firstItem="0pC-hp-KFK" firstAttribute="centerX" secondItem="4ZN-t5-Eo4" secondAttribute="centerX" type="default" id="nYM-Ud-pTe"/>
+                            <constraint firstItem="4ZN-t5-Eo4" firstAttribute="trailing" secondItem="Thb-aK-YoB" secondAttribute="trailing" type="default" id="sVq-bb-cRy"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ThG-mK-b9l"/>
+                    <connections>
+                        <outlet property="configServerAddress" destination="zju-SS-rKY" id="a2t-6q-RdZ"/>
+                        <outlet property="decodeStatusText" destination="Thb-aK-YoB" id="wlL-Pd-8XJ"/>
+                        <outlet property="streamUrl" destination="4ZN-t5-Eo4" id="bHu-og-how"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
             </objects>
@@ -92,7 +170,7 @@
             <objects>
                 <viewController id="FhI-D1-qHX" customClass="WebViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yZb-5O-Svw" customClass="UIWebView">
-                        <rect key="frame" x="0.0" y="64" width="320" height="788"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -117,6 +195,28 @@
             <point key="canvasLocation" x="803" y="752"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="RootViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RootViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="setTestFileUrl:"/>
+                <relationship kind="action" name="startStreaming:"/>
+                <relationship kind="action" name="testYUVDisplay:"/>
+                <relationship kind="outlet" name="configServerAddress" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="decodeStatusText" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="streamUrl" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="WebViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WebViewController.h"/>
+        </class>
+        <class className="YUVDisplayGLViewController" superclassName="GLKViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/YUVDisplayGLViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -97,6 +97,7 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     GLuint _uTextureUniform;
     GLuint _vTextureUniform;
     
+    dispatch_semaphore_t _textureUpdateRenderSemaphore;
 }
 
 @property (strong, nonatomic) EAGLContext *context;
@@ -134,8 +135,15 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
     
+    
+    // setup the textures
+    
     _textureWidth = 0;
     _textureHeight = 0;
+    
+    
+    // init the update render semaphore
+    _textureUpdateRenderSemaphore = dispatch_semaphore_create((long)1);
 }
 
 - (void)viewDidLoad
@@ -246,6 +254,9 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     _yTextureUniform = glGetUniformLocation(programHandle, "s_texture_y");
     _uTextureUniform = glGetUniformLocation(programHandle, "s_texture_u");
     _vTextureUniform = glGetUniformLocation(programHandle, "s_texture_v");
+    _yTexture = 0;
+    _uTexture = 0;
+    _vTexture = 0;
 }
 
 #pragma mark - render code
@@ -291,15 +302,15 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
                           sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
     
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _yTexture);
+//    glBindTexture(GL_TEXTURE_2D, _yTexture);
     glUniform1i(_yTextureUniform, 0);
     
     glActiveTexture(GL_TEXTURE0+1);
-    glBindTexture(GL_TEXTURE_2D, _uTexture);
+//    glBindTexture(GL_TEXTURE_2D, _uTexture);
     glUniform1i(_uTextureUniform, 1);
     
     glActiveTexture(GL_TEXTURE0+2);
-    glBindTexture(GL_TEXTURE_2D, _vTexture);
+//    glBindTexture(GL_TEXTURE_2D, _vTexture);
     glUniform1i(_vTextureUniform, 2);
     
     // draw
@@ -314,31 +325,58 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
 
 #pragma mark - texture setup
 
-- (GLuint)setupTexture:(NSData *)textureData width:(uint) width height:(uint) height
+- (void) updateTexture: (NSData*)textureData width:(uint) width height:(uint) height textureName: (GLuint) texName textureIndex:(GLuint)index
 {
-    GLubyte *glTextureData = (GLubyte*)(textureData.bytes);
-    GLuint texName;
-    glGenTextures(1, &texName);
-    glBindTexture(GL_TEXTURE_2D, texName);
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, width, height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, glTextureData);
+    long renderStatus = dispatch_semaphore_wait(_textureUpdateRenderSemaphore, DISPATCH_TIME_NOW);
+    if (renderStatus==0){
+        GLubyte *glTextureData = (GLubyte*)(textureData.bytes);
+        glActiveTexture(GL_TEXTURE0+index);
+        glBindTexture(GL_TEXTURE_2D, texName);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, width, height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, glTextureData);
+        dispatch_semaphore_signal(_textureUpdateRenderSemaphore);
+    }
+}
 
+- (GLuint)setupTexture:(NSData *)textureData width:(uint) width height:(uint) height textureIndex:(GLuint) index
+{
+    GLuint texName;
+
+    glGenTextures(1, &texName);
+
+    [self updateTexture:textureData width:width height:height textureName:texName textureIndex:index];
+    
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);        
+    
     return texName;
 }
 
 - (int) loadFrameData:(AVFrameData *)frameData
 {
     if (frameData && self.context){
+            
+        
         [EAGLContext setCurrentContext:self.context];
-        _yTexture = [self setupTexture:frameData.colorPlane0 width:frameData.width.intValue height:frameData.height.intValue];
-        _uTexture = [self setupTexture:frameData.colorPlane1 width:frameData.width.intValue/2 height:frameData.height.intValue/2];
-        _vTexture = [self setupTexture:frameData.colorPlane2 width:frameData.width.intValue/2 height:frameData.height.intValue/2];
+        if (!_yTexture){
+            _yTexture = [self setupTexture:frameData.colorPlane0 width:frameData.width.intValue height:frameData.height.intValue textureIndex:0];
+        }else{
+            [self updateTexture:frameData.colorPlane0 width:frameData.width.intValue height:frameData.height.intValue textureName:_yTexture textureIndex:0];
+        }
+        if (!_uTexture){
+            _uTexture = [self setupTexture:frameData.colorPlane1 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureIndex:1];
+        }else{
+            [self updateTexture:frameData.colorPlane1 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureName:_uTexture textureIndex:1];
+        }
+        if (!_vTexture){
+            _vTexture = [self setupTexture:frameData.colorPlane2 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureIndex:2];
+        }else{
+            [self updateTexture:frameData.colorPlane2 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureName:_vTexture textureIndex:2];
+        }
         _textureWidth = frameData.width.intValue;
         _textureHeight = frameData.height.intValue;
+    
         return 0;
     }else{
         return -1;
@@ -349,9 +387,13 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    [self render];
+    long textureUpdateStatus = dispatch_semaphore_wait(_textureUpdateRenderSemaphore, DISPATCH_TIME_NOW);
+    if (textureUpdateStatus==0){
+        glClearColor(0.0, 0.0, 0.0, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        [self render];
+        dispatch_semaphore_signal(_textureUpdateRenderSemaphore);
+    }
 }
 
 #pragma mark - GLKViewControllerDelegate
