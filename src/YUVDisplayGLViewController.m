@@ -301,15 +301,15 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
     
-    glActiveTexture(GL_TEXTURE0);
+//    glActiveTexture(GL_TEXTURE0);
 //    glBindTexture(GL_TEXTURE_2D, _yTexture);
     glUniform1i(_yTextureUniform, 0);
     
-    glActiveTexture(GL_TEXTURE0+1);
+//    glActiveTexture(GL_TEXTURE0+1);
 //    glBindTexture(GL_TEXTURE_2D, _uTexture);
     glUniform1i(_uTextureUniform, 1);
     
-    glActiveTexture(GL_TEXTURE0+2);
+//    glActiveTexture(GL_TEXTURE0+2);
 //    glBindTexture(GL_TEXTURE_2D, _vTexture);
     glUniform1i(_vTextureUniform, 2);
     
@@ -331,7 +331,7 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     if (renderStatus==0){
         GLubyte *glTextureData = (GLubyte*)(textureData.bytes);
         glActiveTexture(GL_TEXTURE0+index);
-        glBindTexture(GL_TEXTURE_2D, texName);
+//        glBindTexture(GL_TEXTURE_2D, texName);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, width, height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, glTextureData);
         dispatch_semaphore_signal(_textureUpdateRenderSemaphore);
     }
@@ -342,7 +342,9 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     GLuint texName;
 
     glGenTextures(1, &texName);
-
+    glActiveTexture(GL_TEXTURE0+index);
+    glBindTexture(GL_TEXTURE_2D, texName);
+    
     [self updateTexture:textureData width:width height:height textureName:texName textureIndex:index];
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

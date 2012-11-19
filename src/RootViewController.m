@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *streamUrl;
 @property (weak, nonatomic) IBOutlet UITextField *configServerAddress;
 @property (weak, nonatomic) IBOutlet UITextView *decodeStatusText;
+@property (weak, nonatomic) IBOutlet UIButton *displayTestButton;
+@property (weak, nonatomic) IBOutlet UIButton *fileDecodeTestButton;
 
 @end
 
@@ -48,6 +50,9 @@
     self.decodeStatusText.editable = NO;
     self.streamUrl.text = @"rtsp://10.100.20.106:554/video/0";
     
+    // hidding test buttons.  Uncomment for testing
+    self.displayTestButton.hidden = TRUE;
+    self.fileDecodeTestButton.hidden = TRUE;
 }
 
 - (void)didReceiveMemoryWarning
@@ -115,9 +120,7 @@
         NSString *statusTxt = [NSString stringWithFormat:@"Connected to server: %@\n", self.streamUrl.text];
         self.decodeStatusText.text = [NSString stringWithFormat:@"%@%@", self.decodeStatusText.text, statusTxt];
         [self.h264dec startDecodingWithCallbackBlock:^(AVFrameData *frame) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
                 [yuvGLDisplay loadFrameData:frame];
-//            });
             if (_counter%60==0){
                 NSLog(@"got %d frames", _counter);
             }

@@ -42,6 +42,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4M-Ul-hff">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="9e1-PC-FRx"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Camera Configuration">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -62,6 +65,9 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPh-Sv-Smg">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="kKT-LN-cYE"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="file test">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -84,11 +90,8 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W4z-u5-hEQ">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="53" id="3Wd-xA-oKg"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Button">
+                                <state key="normal" title="display test">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -102,23 +105,25 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="W4z-u5-hEQ" firstAttribute="trailing" secondItem="5" secondAttribute="trailing" type="default" id="1zM-rd-Atu"/>
                             <constraint firstItem="f2b-En-0R4" firstAttribute="leading" secondItem="fPh-Sv-Smg" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="2bt-xe-tC9"/>
                             <constraint firstItem="W2S-Q6-93W" firstAttribute="top" secondItem="5" secondAttribute="top" constant="241" id="5BI-4e-2ue"/>
                             <constraint firstItem="f2b-En-0R4" firstAttribute="top" secondItem="5" secondAttribute="top" constant="77" id="5ih-kT-mNQ"/>
                             <constraint firstItem="v4M-Ul-hff" firstAttribute="centerX" secondItem="zju-SS-rKY" secondAttribute="centerX" type="default" id="6Hc-PA-RqT"/>
+                            <constraint firstItem="W4z-u5-hEQ" firstAttribute="bottom" secondItem="fPh-Sv-Smg" secondAttribute="bottom" type="default" id="6sh-qb-XpS"/>
                             <constraint firstItem="4ZN-t5-Eo4" firstAttribute="top" secondItem="5" secondAttribute="top" constant="114" id="7ob-Yd-xvb"/>
                             <constraint firstItem="0pC-hp-KFK" firstAttribute="top" secondItem="5" secondAttribute="top" constant="167" id="A04-gi-NQ2"/>
                             <constraint firstItem="zju-SS-rKY" firstAttribute="trailing" secondItem="Thb-aK-YoB" secondAttribute="trailing" type="default" id="CJ1-1k-HtH"/>
+                            <constraint firstItem="v4M-Ul-hff" firstAttribute="centerX" secondItem="5" secondAttribute="centerX" type="default" id="Frc-pa-hSM"/>
+                            <constraint firstItem="W4z-u5-hEQ" firstAttribute="baseline" secondItem="fPh-Sv-Smg" secondAttribute="baseline" type="default" id="IyB-2z-i97"/>
                             <constraint firstItem="fPh-Sv-Smg" firstAttribute="top" secondItem="5" secondAttribute="top" constant="11" id="TkP-8q-42o"/>
                             <constraint firstItem="Thb-aK-YoB" firstAttribute="top" secondItem="5" secondAttribute="top" constant="337" id="TmB-BT-Q0F"/>
                             <constraint firstAttribute="bottom" secondItem="zju-SS-rKY" secondAttribute="bottom" constant="103" id="W87-ec-heb"/>
-                            <constraint firstItem="Thb-aK-YoB" firstAttribute="centerX" secondItem="5" secondAttribute="centerX" type="default" id="aLE-8r-3bp"/>
                             <constraint firstItem="W4z-u5-hEQ" firstAttribute="baseline" secondItem="v4M-Ul-hff" secondAttribute="baseline" type="default" id="aWB-B6-tIT"/>
-                            <constraint firstAttribute="bottom" secondItem="v4M-Ul-hff" secondAttribute="bottom" constant="25" id="aaF-v6-o2W"/>
                             <constraint firstItem="Thb-aK-YoB" firstAttribute="centerX" secondItem="W2S-Q6-93W" secondAttribute="centerX" type="default" id="aly-07-eom"/>
                             <constraint firstItem="W2S-Q6-93W" firstAttribute="centerX" secondItem="0pC-hp-KFK" secondAttribute="centerX" type="default" id="aoQ-FW-H9i"/>
+                            <constraint firstAttribute="bottom" secondItem="v4M-Ul-hff" secondAttribute="bottom" constant="25" id="bQu-6F-7rT"/>
                             <constraint firstItem="zju-SS-rKY" firstAttribute="leading" secondItem="4ZN-t5-Eo4" secondAttribute="leading" type="default" id="dHX-Ki-eOx"/>
+                            <constraint firstAttribute="trailing" secondItem="W4z-u5-hEQ" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="eIh-bJ-0cg"/>
                             <constraint firstItem="4ZN-t5-Eo4" firstAttribute="centerX" secondItem="f2b-En-0R4" secondAttribute="centerX" type="default" id="ghK-AT-h2u"/>
                             <constraint firstItem="0pC-hp-KFK" firstAttribute="centerX" secondItem="4ZN-t5-Eo4" secondAttribute="centerX" type="default" id="nYM-Ud-pTe"/>
                             <constraint firstItem="4ZN-t5-Eo4" firstAttribute="trailing" secondItem="Thb-aK-YoB" secondAttribute="trailing" type="default" id="sVq-bb-cRy"/>
@@ -128,6 +133,8 @@
                     <connections>
                         <outlet property="configServerAddress" destination="zju-SS-rKY" id="a2t-6q-RdZ"/>
                         <outlet property="decodeStatusText" destination="Thb-aK-YoB" id="wlL-Pd-8XJ"/>
+                        <outlet property="displayTestButton" destination="W4z-u5-hEQ" id="82T-yZ-kTA"/>
+                        <outlet property="fileDecodeTestButton" destination="fPh-Sv-Smg" id="qTp-dL-8wa"/>
                         <outlet property="streamUrl" destination="4ZN-t5-Eo4" id="bHu-og-how"/>
                     </connections>
                 </viewController>
@@ -195,28 +202,6 @@
             <point key="canvasLocation" x="803" y="752"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="RootViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RootViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="setTestFileUrl:"/>
-                <relationship kind="action" name="startStreaming:"/>
-                <relationship kind="action" name="testYUVDisplay:"/>
-                <relationship kind="outlet" name="configServerAddress" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="decodeStatusText" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="streamUrl" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="WebViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/WebViewController.h"/>
-        </class>
-        <class className="YUVDisplayGLViewController" superclassName="GLKViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/YUVDisplayGLViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
