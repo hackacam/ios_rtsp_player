@@ -9,6 +9,7 @@
 #import "RootViewController.h"
 #import "FfmpegWrapper.h"
 #import "YUVDisplayGLViewController.h"
+#import "WebViewController.h"
 
 @interface RootViewController () <UITextFieldDelegate> {
     int _counter;
@@ -49,6 +50,7 @@
     self.configServerAddress.delegate = self;
     self.decodeStatusText.editable = NO;
     self.streamUrl.text = @"rtsp://10.100.20.106:554/video/0";
+    self.configServerAddress.text = @"http://10.100.20.106";
     
     // hidding test buttons.  Uncomment for testing
     self.displayTestButton.hidden = TRUE;
@@ -140,6 +142,38 @@
 {
     [textField resignFirstResponder];
     return NO;
+}
+
+-(void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField==self.configServerAddress){
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        textField.frame = CGRectMake(textField.frame.origin.x, (textField.frame.origin.y - 270.0), textField.frame.size.width, textField.frame.size.height);
+        [UIView commitAnimations];
+    }
+}
+
+-(void) textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField==self.configServerAddress){
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        textField.frame = CGRectMake(textField.frame.origin.x, (textField.frame.origin.y + 270.0), textField.frame.size.width, textField.frame.size.height);
+        [UIView commitAnimations];
+    }
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"push to config webview"]){
+        WebViewController *dstViewController = segue.destinationViewController;
+        dstViewController.configUrl = self.configServerAddress.text;
+    }
 }
 
 @end

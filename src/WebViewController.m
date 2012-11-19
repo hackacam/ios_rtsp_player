@@ -9,10 +9,12 @@
 #import "WebViewController.h"
 
 @interface WebViewController ()
+@property (weak, nonatomic) IBOutlet UIWebView *theWebView;
 
 @end
 
 @implementation WebViewController
+@synthesize configUrl = _configUrl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +29,17 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    NSURL *url = [NSURL URLWithString:self.configUrl];
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+    
+    
+    [self.theWebView loadRequest:requestObj];
+
 }
 
 - (void)didReceiveMemoryWarning

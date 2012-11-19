@@ -123,7 +123,9 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     return self;
 }
 
-- (void)setupGL {
+
+- (void)setupGL
+{
     
     [EAGLContext setCurrentContext:self.context];
     
@@ -135,15 +137,9 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
     
-    
-    // setup the textures
-    
-    _textureWidth = 0;
-    _textureHeight = 0;
-    
-    
     // init the update render semaphore
     _textureUpdateRenderSemaphore = dispatch_semaphore_create((long)1);
+    
 }
 
 - (void)viewDidLoad
@@ -161,6 +157,13 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     
     [self setupGL];
     [self compileShaders];
+    
+    // setup the textures
+    _textureWidth = 1280;
+    _textureHeight = 720;
+    _yTexture = [self setupTexture:nil width:_textureWidth height:_textureHeight textureIndex:0];
+    _uTexture = [self setupTexture:nil width:_textureWidth/2 height:_textureHeight/2 textureIndex:1];
+    _vTexture = [self setupTexture:nil width:_textureWidth/2 height:_textureHeight/2 textureIndex:2];
 }
 
 - (void)tearDownGL {
@@ -169,6 +172,10 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteBuffers(1, &_indexBuffer);
+    
+    glDeleteTextures(1, &_yTexture);
+    glDeleteTextures(1, &_uTexture);
+    glDeleteTextures(1, &_vTexture);
     
 }
 
@@ -186,6 +193,48 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - texture setup
+
+- (void) updateTexture: (NSData*)textureData width:(uint) width height:(uint) height textureIndex:(GLuint)index
+{
+    long renderStatus = dispatch_semaphore_wait(_textureUpdateRenderSemaphore, DISPATCH_TIME_NOW);
+    if (renderStatus==0){
+        GLubyte *glTextureData;
+        if (textureData){
+            glTextureData = (GLubyte*)(textureData.bytes);
+        }else{
+            glTextureData = (GLubyte *) malloc(width*height);
+            memset(glTextureData, 0, width*height);
+        }
+        glActiveTexture(GL_TEXTURE0+index);
+        //        glBindTexture(GL_TEXTURE_2D, texName);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, width, height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, glTextureData);
+        
+        if (!textureData){
+            free(glTextureData);
+        }
+        dispatch_semaphore_signal(_textureUpdateRenderSemaphore);
+    }
+}
+
+- (GLuint)setupTexture:(NSData *)textureData width:(uint) width height:(uint) height textureIndex:(GLuint) index
+{
+    GLuint texName;
+    
+    glGenTextures(1, &texName);
+    glActiveTexture(GL_TEXTURE0+index);
+    glBindTexture(GL_TEXTURE_2D, texName);
+    
+    [self updateTexture:textureData width:width height:height textureIndex:index];
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+    return texName;
 }
 
 #pragma mark - compile and load shaders
@@ -323,37 +372,7 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
 }
 
 
-#pragma mark - texture setup
-
-- (void) updateTexture: (NSData*)textureData width:(uint) width height:(uint) height textureName: (GLuint) texName textureIndex:(GLuint)index
-{
-    long renderStatus = dispatch_semaphore_wait(_textureUpdateRenderSemaphore, DISPATCH_TIME_NOW);
-    if (renderStatus==0){
-        GLubyte *glTextureData = (GLubyte*)(textureData.bytes);
-        glActiveTexture(GL_TEXTURE0+index);
-//        glBindTexture(GL_TEXTURE_2D, texName);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, width, height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, glTextureData);
-        dispatch_semaphore_signal(_textureUpdateRenderSemaphore);
-    }
-}
-
-- (GLuint)setupTexture:(NSData *)textureData width:(uint) width height:(uint) height textureIndex:(GLuint) index
-{
-    GLuint texName;
-
-    glGenTextures(1, &texName);
-    glActiveTexture(GL_TEXTURE0+index);
-    glBindTexture(GL_TEXTURE_2D, texName);
-    
-    [self updateTexture:textureData width:width height:height textureName:texName textureIndex:index];
-    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);        
-    
-    return texName;
-}
+#pragma mark - loading the texture data
 
 - (int) loadFrameData:(AVFrameData *)frameData
 {
@@ -361,24 +380,28 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
             
         
         [EAGLContext setCurrentContext:self.context];
-        if (!_yTexture){
-            _yTexture = [self setupTexture:frameData.colorPlane0 width:frameData.width.intValue height:frameData.height.intValue textureIndex:0];
-        }else{
-            [self updateTexture:frameData.colorPlane0 width:frameData.width.intValue height:frameData.height.intValue textureName:_yTexture textureIndex:0];
+//        if (!_yTexture){
+//            _yTexture = [self setupTexture:frameData.colorPlane0 width:frameData.width.intValue height:frameData.height.intValue textureIndex:0];
+//        }else{
+//            [self updateTexture:frameData.colorPlane0 width:frameData.width.intValue height:frameData.height.intValue textureName:_yTexture textureIndex:0];
+//        }
+//        if (!_uTexture){
+//            _uTexture = [self setupTexture:frameData.colorPlane1 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureIndex:1];
+//        }else{
+//            [self updateTexture:frameData.colorPlane1 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureName:_uTexture textureIndex:1];
+//        }
+//        if (!_vTexture){
+//            _vTexture = [self setupTexture:frameData.colorPlane2 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureIndex:2];
+//        }else{
+//            [self updateTexture:frameData.colorPlane2 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureName:_vTexture textureIndex:2];
+//        }
+        if (_yTexture && _uTexture && _vTexture){
+            [self updateTexture:frameData.colorPlane0 width:frameData.width.intValue height:frameData.height.intValue textureIndex:0];
+            [self updateTexture:frameData.colorPlane1 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureIndex:1];
+            [self updateTexture:frameData.colorPlane2 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureIndex:2];
+            _textureWidth = frameData.width.intValue;
+            _textureHeight = frameData.height.intValue;
         }
-        if (!_uTexture){
-            _uTexture = [self setupTexture:frameData.colorPlane1 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureIndex:1];
-        }else{
-            [self updateTexture:frameData.colorPlane1 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureName:_uTexture textureIndex:1];
-        }
-        if (!_vTexture){
-            _vTexture = [self setupTexture:frameData.colorPlane2 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureIndex:2];
-        }else{
-            [self updateTexture:frameData.colorPlane2 width:frameData.width.intValue/2 height:frameData.height.intValue/2 textureName:_vTexture textureIndex:2];
-        }
-        _textureWidth = frameData.width.intValue;
-        _textureHeight = frameData.height.intValue;
-    
         return 0;
     }else{
         return -1;
@@ -419,6 +442,6 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    self.paused = !self.paused;
+//    self.paused = !self.paused;
 }
 @end
