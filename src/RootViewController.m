@@ -11,7 +11,7 @@
 #import "YUVDisplayGLViewController.h"
 #import "WebViewController.h"
 
-@interface RootViewController () <UITextFieldDelegate> {
+@interface RootViewController () <UITextFieldDelegate, UISplitViewControllerDelegate> {
     int _counter;
 }
 @property (nonatomic, strong) FfmpegWrapper *h264dec;
@@ -55,6 +55,9 @@
     // hidding test buttons.  Uncomment for testing
     self.displayTestButton.hidden = TRUE;
     self.fileDecodeTestButton.hidden = TRUE;
+    
+    // set the split view controller delegate
+    self.splitViewController.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -174,6 +177,24 @@
         WebViewController *dstViewController = segue.destinationViewController;
         dstViewController.configUrl = self.configServerAddress.text;
     }
+}
+
+-(BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation
+{
+    id yuvGLDisplay = [self.splitViewController.viewControllers lastObject];
+    if (![yuvGLDisplay isKindOfClass:[YUVDisplayGLViewController class]]){
+        yuvGLDisplay = nil;
+    }
+    return [yuvGLDisplay shouldHideMaster];
+}
+
+-(void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+}
+
+-(void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
+{
+
 }
 
 @end

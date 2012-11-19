@@ -98,6 +98,8 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     GLuint _vTextureUniform;
     
     dispatch_semaphore_t _textureUpdateRenderSemaphore;
+    
+    BOOL _shouldHideMaster;
 }
 
 @property (strong, nonatomic) EAGLContext *context;
@@ -164,6 +166,8 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
     _yTexture = [self setupTexture:nil width:_textureWidth height:_textureHeight textureIndex:0];
     _uTexture = [self setupTexture:nil width:_textureWidth/2 height:_textureHeight/2 textureIndex:1];
     _vTexture = [self setupTexture:nil width:_textureWidth/2 height:_textureHeight/2 textureIndex:2];
+    
+    _shouldHideMaster = NO;
 }
 
 - (void)tearDownGL {
@@ -443,5 +447,13 @@ NSString *const rgbFragmentShaderString = SHADER_STRING
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 //    self.paused = !self.paused;
+    _shouldHideMaster=!_shouldHideMaster;
+    [self.splitViewController willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
+    [self.splitViewController.view setNeedsLayout];
+}
+
+-(BOOL) shouldHideMaster
+{
+    return _shouldHideMaster;
 }
 @end

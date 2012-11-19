@@ -40,11 +40,14 @@
     dispatch_group_t _decode_queue_group;
     
     volatile bool _stopDecode;
+    
+    CFTimeInterval _previousDecodedFrameTime;
 }
 
 @end
 
 @implementation FfmpegWrapper
+#define MIN_FRAME_INTERVAL 0.01
 
 -(id) init
 {
@@ -68,6 +71,8 @@
     // set memory barrier
     OSMemoryBarrier();
     _stopDecode=false;
+
+    _previousDecodedFrameTime=0;
     
     return self;
 }
@@ -187,24 +192,29 @@
         OSMemoryBarrier();
         while (self->_stopDecode==false){
             @autoreleasepool {
-            if (av_read_frame(_formatCtx, &_packet)>=0) {
-                // Is this a packet from the video stream?
-                if(_packet.stream_index==_videoStream) {
-                    // Decode video frame
-                    avcodec_decode_video2(_codecCtx, _frame, &frameFinished,
-                                          &_packet);
-                    
-                    // Did we get a video frame?
-                    if(frameFinished) {
-                        // create a frame object and call the block;
-                        AVFrameData *frameData = [self createFrameData:_frame trimPadding:YES];
-                        frameCallbackBlock(frameData);
+                CFTimeInterval currentTime = CACurrentMediaTime();
+                if ((currentTime-_previousDecodedFrameTime) > MIN_FRAME_INTERVAL &&
+                    av_read_frame(_formatCtx, &_packet)>=0) {
+                    _previousDecodedFrameTime = currentTime;
+                    // Is this a packet from the video stream?
+                    if(_packet.stream_index==_videoStream) {
+                        // Decode video frame
+                        avcodec_decode_video2(_codecCtx, _frame, &frameFinished,
+                                              &_packet);
+                        
+                        // Did we get a video frame?
+                        if(frameFinished) {
+                            // create a frame object and call the block;
+                            AVFrameData *frameData = [self createFrameData:_frame trimPadding:YES];
+                            frameCallbackBlock(frameData);
+                        }
                     }
+                    
+                    // Free the packet that was allocated by av_read_frame
+                    av_free_packet(&_packet);
+                }else{
+                    usleep(1000);
                 }
-                
-                // Free the packet that was allocated by av_read_frame
-                av_free_packet(&_packet);
-            }
             }
         }
         completion();
@@ -310,10 +320,6 @@
 
 -(void)dealloc_helper
 {
-    // Free the YUV frame
-    if (_frame){
-        av_free(_frame);
-    }
     // Close the codec
     if (_codecCtx){
         avcodec_close(_codecCtx);
@@ -322,6 +328,11 @@
     if (_formatCtx){
         avformat_close_input(&_formatCtx);
     }
+    // Free the YUV frame
+    if (_frame){
+        av_freep(_frame);
+    }
+
 }
 
 -(void)dealloc
