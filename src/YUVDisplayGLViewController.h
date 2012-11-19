@@ -7,7 +7,10 @@
 //
 
 #import <GLKit/GLKit.h>
+#import "FfmpegWrapper.h"
 
 @interface YUVDisplayGLViewController : GLKViewController
+
+-(int) loadFrameData: (AVFrameData *) frameData;
 
 @end

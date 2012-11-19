@@ -12,6 +12,7 @@
 		611C1E161658A45D00BB3674 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611C1E151658A45D00BB3674 /* OpenGLES.framework */; };
 		611C1E181658A46400BB3674 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611C1E171658A46400BB3674 /* GLKit.framework */; };
 		611C1E381658A7AB00BB3674 /* YUVDisplayGLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 611C1E371658A7AB00BB3674 /* YUVDisplayGLViewController.m */; };
+		615573CC1659A0A900EC1274 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 615573CB1659A0A900EC1274 /* WebViewController.m */; };
 		615FB2B41655856E00D50098 /* FfmpegWrapperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */; };
 		6194CE3216577AC60009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */; };
 		6194CE3316577B000009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */; };
@@ -57,6 +58,8 @@
 		611C1E171658A46400BB3674 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		611C1E361658A7AB00BB3674 /* YUVDisplayGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUVDisplayGLViewController.h; sourceTree = "<group>"; };
 		611C1E371658A7AB00BB3674 /* YUVDisplayGLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YUVDisplayGLViewController.m; sourceTree = "<group>"; };
+		615573CA1659A0A800EC1274 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		615573CB1659A0A900EC1274 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		615FB2B21655856E00D50098 /* FfmpegWrapperTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FfmpegWrapperTest.h; path = src_tests/FfmpegWrapperTest.h; sourceTree = SOURCE_ROOT; };
 		615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FfmpegWrapperTest.m; path = src_tests/FfmpegWrapperTest.m; sourceTree = SOURCE_ROOT; };
 		6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264"; sourceTree = "<group>"; };
@@ -210,6 +213,8 @@
 				619E5071165576E800463A94 /* FfmpegWrapper.m */,
 				619E5072165576E800463A94 /* RootViewController.h */,
 				619E5073165576E800463A94 /* RootViewController.m */,
+				615573CA1659A0A800EC1274 /* WebViewController.h */,
+				615573CB1659A0A900EC1274 /* WebViewController.m */,
 				611C1E361658A7AB00BB3674 /* YUVDisplayGLViewController.h */,
 				611C1E371658A7AB00BB3674 /* YUVDisplayGLViewController.m */,
 			);
@@ -350,6 +355,7 @@
 				619E5074165576E800463A94 /* FfmpegWrapper.m in Sources */,
 				619E5075165576E800463A94 /* RootViewController.m in Sources */,
 				611C1E381658A7AB00BB3674 /* YUVDisplayGLViewController.m in Sources */,
+				615573CC1659A0A900EC1274 /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
