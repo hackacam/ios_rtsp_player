@@ -13,6 +13,12 @@
 		611C1E381658A7AB00BB3674 /* YUVDisplayGLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 611C1E371658A7AB00BB3674 /* YUVDisplayGLViewController.m */; };
 		615573CC1659A0A900EC1274 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 615573CB1659A0A900EC1274 /* WebViewController.m */; };
 		615FB2B41655856E00D50098 /* FfmpegWrapperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */; };
+		618D5E2D166446D400C74FF1 /* _MG_3858_square_72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = 618D5E2C166446D400C74FF1 /* _MG_3858_square_72x72.png */; };
+		618D5E2F1664475900C74FF1 /* _MG_3858_square_144x144.png in Resources */ = {isa = PBXBuildFile; fileRef = 618D5E2E1664475900C74FF1 /* _MG_3858_square_144x144.png */; };
+		618D5E3116644BD600C74FF1 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 618D5E3016644BD600C74FF1 /* Default-Portrait~ipad.png */; };
+		618D5E3316644BDA00C74FF1 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 618D5E3216644BDA00C74FF1 /* Default-Portrait@2x~ipad.png */; };
+		618D5E3516644BF700C74FF1 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 618D5E3416644BF700C74FF1 /* Default-Landscape~ipad.png */; };
+		618D5E3716644BFC00C74FF1 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 618D5E3616644BFC00C74FF1 /* Default-Landscape@2x~ipad.png */; };
 		6194CE3216577AC60009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */; };
 		6194CE3316577B000009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */; };
 		6194CE3416577B700009FF15 /* testOutput720x480_yuv420_1.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 61EC54971656C672005C220D /* testOutput720x480_yuv420_1.yuv */; };
@@ -60,6 +66,12 @@
 		615573CB1659A0A900EC1274 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		615FB2B21655856E00D50098 /* FfmpegWrapperTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FfmpegWrapperTest.h; path = src_tests/FfmpegWrapperTest.h; sourceTree = SOURCE_ROOT; };
 		615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FfmpegWrapperTest.m; path = src_tests/FfmpegWrapperTest.m; sourceTree = SOURCE_ROOT; };
+		618D5E2C166446D400C74FF1 /* _MG_3858_square_72x72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = _MG_3858_square_72x72.png; sourceTree = "<group>"; };
+		618D5E2E1664475900C74FF1 /* _MG_3858_square_144x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = _MG_3858_square_144x144.png; sourceTree = "<group>"; };
+		618D5E3016644BD600C74FF1 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		618D5E3216644BDA00C74FF1 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		618D5E3416644BF700C74FF1 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		618D5E3616644BFC00C74FF1 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264"; sourceTree = "<group>"; };
 		619E50301655765400463A94 /* rtsp_player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rtsp_player.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		619E50341655765400463A94 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -167,6 +179,12 @@
 		619E503B1655765400463A94 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				618D5E3616644BFC00C74FF1 /* Default-Landscape@2x~ipad.png */,
+				618D5E3416644BF700C74FF1 /* Default-Landscape~ipad.png */,
+				618D5E3216644BDA00C74FF1 /* Default-Portrait@2x~ipad.png */,
+				618D5E3016644BD600C74FF1 /* Default-Portrait~ipad.png */,
+				618D5E2E1664475900C74FF1 /* _MG_3858_square_144x144.png */,
+				618D5E2C166446D400C74FF1 /* _MG_3858_square_72x72.png */,
 				619E50431655765400463A94 /* AppDelegate.h */,
 				619E50441655765400463A94 /* AppDelegate.m */,
 				619E503C1655765400463A94 /* rtsp_player-Info.plist */,
@@ -307,6 +325,12 @@
 				619E50491655765500463A94 /* Default@2x.png in Resources */,
 				619E504B1655765500463A94 /* Default-568h@2x.png in Resources */,
 				619E504E1655765500463A94 /* MainStoryboard.storyboard in Resources */,
+				618D5E2D166446D400C74FF1 /* _MG_3858_square_72x72.png in Resources */,
+				618D5E2F1664475900C74FF1 /* _MG_3858_square_144x144.png in Resources */,
+				618D5E3116644BD600C74FF1 /* Default-Portrait~ipad.png in Resources */,
+				618D5E3316644BDA00C74FF1 /* Default-Portrait@2x~ipad.png in Resources */,
+				618D5E3516644BF700C74FF1 /* Default-Landscape~ipad.png in Resources */,
+				618D5E3716644BFC00C74FF1 /* Default-Landscape@2x~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
