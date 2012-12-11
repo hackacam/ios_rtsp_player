@@ -73,7 +73,7 @@
 		618D5E3416644BF700C74FF1 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		618D5E3616644BFC00C74FF1 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		6194CE2B165778730009FF15 /* itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "itur525_26kielharbour4_original_720x480_-avg-bps_2000000.h264"; sourceTree = "<group>"; };
-		619E50301655765400463A94 /* rtsp_player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rtsp_player.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		619E50301655765400463A94 /* Stretch IPCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stretch IPCam.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		619E50341655765400463A94 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		619E50361655765400463A94 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		619E50381655765400463A94 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -145,7 +145,7 @@
 		619E50311655765400463A94 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				619E50301655765400463A94 /* rtsp_player.app */,
+				619E50301655765400463A94 /* Stretch IPCam.app */,
 				619E50571655765500463A94 /* rtsp_playerTests.octest */,
 			);
 			name = Products;
@@ -264,7 +264,7 @@
 			);
 			name = rtsp_player;
 			productName = rtsp_player;
-			productReference = 619E50301655765400463A94 /* rtsp_player.app */;
+			productReference = 619E50301655765400463A94 /* Stretch IPCam.app */;
 			productType = "com.apple.product-type.application";
 		};
 		619E50561655765500463A94 /* rtsp_playerTests */ = {
@@ -426,6 +426,66 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		618D5E381664A0FE00C74FF1 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Sinova Enterprise LTD";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Sinova Enterprise LTD";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = "Stretch View";
+				PROVISIONING_PROFILE = "A0094095-3331-4C7A-AF45-9D5B8FE792F5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A0094095-3331-4C7A-AF45-9D5B8FE792F5";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Distribution;
+		};
+		618D5E391664A0FE00C74FF1 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "rtsp_player/rtsp_player-Prefix.pch";
+				INFOPLIST_FILE = "rtsp_player/rtsp_player-Info.plist";
+				PRODUCT_NAME = "Stretch IPCam";
+				VALID_ARCHS = armv7;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Distribution;
+		};
+		618D5E3A1664A0FE00C74FF1 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/rtsp_player.app/rtsp_player";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "rtsp_player/rtsp_player-Prefix.pch";
+				INFOPLIST_FILE = "rtsp_playerTests/rtsp_playerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Distribution;
+		};
 		619E50671655765500463A94 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -450,6 +510,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "Stretch View";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -472,6 +533,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = "Stretch View";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -488,7 +550,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rtsp_player/rtsp_player-Prefix.pch";
 				INFOPLIST_FILE = "rtsp_player/rtsp_player-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Stretch IPCam";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -503,7 +566,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rtsp_player/rtsp_player-Prefix.pch";
 				INFOPLIST_FILE = "rtsp_player/rtsp_player-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Stretch IPCam";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -550,27 +614,30 @@
 			buildConfigurations = (
 				619E50671655765500463A94 /* Debug */,
 				619E50681655765500463A94 /* Release */,
+				618D5E381664A0FE00C74FF1 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Distribution;
 		};
 		619E50691655765500463A94 /* Build configuration list for PBXNativeTarget "rtsp_player" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				619E506A1655765500463A94 /* Debug */,
 				619E506B1655765500463A94 /* Release */,
+				618D5E391664A0FE00C74FF1 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Distribution;
 		};
 		619E506C1655765500463A94 /* Build configuration list for PBXNativeTarget "rtsp_playerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				619E506D1655765500463A94 /* Debug */,
 				619E506E1655765500463A94 /* Release */,
+				618D5E3A1664A0FE00C74FF1 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Distribution;
 		};
 /* End XCConfigurationList section */
 	};

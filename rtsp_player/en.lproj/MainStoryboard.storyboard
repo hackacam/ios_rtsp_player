@@ -50,6 +50,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="stopStreaming:" destination="2" eventType="touchUpInside" id="Z9p-59-uZh"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPh-Sv-Smg">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -211,6 +214,34 @@
             <point key="canvasLocation" x="803" y="752"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="RootViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RootViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="setTestFileUrl:"/>
+                <relationship kind="action" name="startStreaming:"/>
+                <relationship kind="action" name="stopStreaming:"/>
+                <relationship kind="action" name="testYUVDisplay:"/>
+                <relationship kind="outlet" name="configServerAddress" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="decodeStatusText" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="displayTestButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="fileDecodeTestButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="streamUrl" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="WebViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WebViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="theWebView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="YUVDisplayGLViewController" superclassName="GLKViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/YUVDisplayGLViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -49,8 +49,8 @@
     self.streamUrl.delegate = self;
     self.configServerAddress.delegate = self;
     self.decodeStatusText.editable = NO;
-    self.streamUrl.text = @"rtsp://10.100.20.106:554/video/0";
-    self.configServerAddress.text = @"http://10.100.20.106";
+    self.streamUrl.text = @"rtsp://nervnet.ignorelist.com:554/video/0";
+    self.configServerAddress.text = @"http://nervnet.ignorelist.com:8888";
     
     // hidding test buttons.  Uncomment for testing
     self.displayTestButton.hidden = TRUE;
@@ -139,6 +139,10 @@
         self.h264dec=nil;
     }
     
+}
+
+- (IBAction)stopStreaming:(id)sender {
+    [self.h264dec stopDecode];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
