@@ -10,22 +10,59 @@
 #import "FfmpegWrapper.h"
 #import "YUVDisplayGLViewController.h"
 #import "WebViewController.h"
+#import "CameraFinder.h"
+#import <QuartzCore/QuartzCore.h>
+#include <arpa/inet.h>
 
-@interface RootViewController () <UITextFieldDelegate, UISplitViewControllerDelegate> {
+@interface RootViewController () <UITextFieldDelegate, UISplitViewControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, CameraFinderDelegate> {
     int _counter;
+    BOOL searching;
 }
 @property (nonatomic, strong) FfmpegWrapper *h264dec;
 @property (weak, nonatomic) IBOutlet UITextField *streamUrl;
-@property (weak, nonatomic) IBOutlet UITextField *configServerAddress;
 @property (weak, nonatomic) IBOutlet UITextView *decodeStatusText;
-@property (weak, nonatomic) IBOutlet UIButton *displayTestButton;
-@property (weak, nonatomic) IBOutlet UIButton *fileDecodeTestButton;
+@property (weak, nonatomic) IBOutlet UIPickerView *macAddressPickerView;
 
+
+@property (strong, nonatomic) NSArray *ipcamList;
+@property (strong, nonatomic) NSArray *channelList;
+@property (strong, nonatomic) NSString *currentCameraIP;
+@property (strong, nonatomic) NSString *currentCameraCh;
+
+@property (strong, nonatomic) CameraFinder* cameraFinder;
 @end
 
 @implementation RootViewController
 @synthesize h264dec=_h264dec;
+@synthesize ipcamList = _ipcamList;
+@synthesize channelList = _channelList;
+@synthesize cameraFinder = _cameraFinder;
+@synthesize currentCameraCh = _currentCameraCh;
+@synthesize currentCameraIP = _currentCameraIP;
 
+- (CameraFinder*) cameraFinder
+{
+    if (!_cameraFinder){
+        _cameraFinder = [[CameraFinder alloc] init];
+    }
+    return _cameraFinder;
+}
+
+- (NSArray *) ipcamList
+{
+    if (!_ipcamList){
+        _ipcamList = [[NSArray alloc] init];
+    }
+    return _ipcamList;
+}
+
+- (NSArray *) channelList
+{
+    if (!_channelList){
+        _channelList = [[NSArray alloc] initWithObjects:@"CH01", @"CH02", @"CH03", @"CH04", nil];
+    }
+    return _channelList;
+}
 
 -(FfmpegWrapper *) h264dec
 {
@@ -43,21 +80,32 @@
     }
 }
 
+- (void) updateCurrentUrl
+{
+    NSString *currentUrl = [NSString stringWithFormat:@"rtsp://%@:554/video/%@", self.currentCameraIP, self.currentCameraCh];
+    self.streamUrl.text = currentUrl;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.streamUrl.delegate = self;
-    self.configServerAddress.delegate = self;
     self.decodeStatusText.editable = NO;
-    self.streamUrl.text = @"rtsp://nervnet.ignorelist.com:554/video/0";
-    self.configServerAddress.text = @"http://nervnet.ignorelist.com:8888";
-    
-    // hidding test buttons.  Uncomment for testing
-    self.displayTestButton.hidden = TRUE;
-    self.fileDecodeTestButton.hidden = TRUE;
-    
+    self.decodeStatusText.layer.borderWidth = 5.0f;
+    self.decodeStatusText.layer.borderColor = [[UIColor grayColor] CGColor];
+    [self updateCurrentUrl];
+        
     // set the split view controller delegate
     self.splitViewController.delegate = self;
+    
+    // set the delegate for the camera finder and start the search
+    self.cameraFinder.delegate = self;
+    [self.cameraFinder startSearch];
+    
+    
+    // setup the pickerview delegate/datasource
+    self.macAddressPickerView.delegate=self;
+    self.macAddressPickerView.dataSource=self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -143,6 +191,7 @@
 
 - (IBAction)stopStreaming:(id)sender {
     [self.h264dec stopDecode];
+    self.h264dec = nil;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -153,33 +202,37 @@
 
 -(void) textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (textField==self.configServerAddress){
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDelegate:self];
-        [UIView setAnimationDuration:0.5];
-        [UIView setAnimationBeginsFromCurrentState:YES];
-        textField.frame = CGRectMake(textField.frame.origin.x, (textField.frame.origin.y - 270.0), textField.frame.size.width, textField.frame.size.height);
-        [UIView commitAnimations];
-    }
+//    if (textField==self.configServerAddress){
+//        [UIView beginAnimations:nil context:NULL];
+//        [UIView setAnimationDelegate:self];
+//        [UIView setAnimationDuration:0.5];
+//        [UIView setAnimationBeginsFromCurrentState:YES];
+//        textField.frame = CGRectMake(textField.frame.origin.x, (textField.frame.origin.y - 270.0), textField.frame.size.width, textField.frame.size.height);
+//        [UIView commitAnimations];
+//    }
 }
 
 -(void) textFieldDidEndEditing:(UITextField *)textField
 {
-    if (textField==self.configServerAddress){
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDelegate:self];
-        [UIView setAnimationDuration:0.5];
-        [UIView setAnimationBeginsFromCurrentState:YES];
-        textField.frame = CGRectMake(textField.frame.origin.x, (textField.frame.origin.y + 270.0), textField.frame.size.width, textField.frame.size.height);
-        [UIView commitAnimations];
-    }
+//    if (textField==self.configServerAddress){
+//        [UIView beginAnimations:nil context:NULL];
+//        [UIView setAnimationDelegate:self];
+//        [UIView setAnimationDuration:0.5];
+//        [UIView setAnimationBeginsFromCurrentState:YES];
+//        textField.frame = CGRectMake(textField.frame.origin.x, (textField.frame.origin.y + 270.0), textField.frame.size.width, textField.frame.size.height);
+//        [UIView commitAnimations];
+//    }
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"push to config webview"]){
         WebViewController *dstViewController = segue.destinationViewController;
-        dstViewController.configUrl = self.configServerAddress.text;
+//        dstViewController.configUrl = self.configServerAddress.text;
+        NSString *address = [[self.streamUrl.text componentsSeparatedByString:@"/"] objectAtIndex:2];
+        address = [[address componentsSeparatedByString:@":"] objectAtIndex:0];
+        address = [NSString stringWithFormat:@"http://%@", address];
+        dstViewController.configUrl = address;
     }
 }
 
@@ -198,7 +251,73 @@
 
 -(void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
 {
+}
 
+#pragma mark PickerView DataSource
+-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+{
+    if (component==0){
+        return pickerView.bounds.size.width*3/4;
+    }else{
+        return pickerView.bounds.size.width/4;
+    }
+}
+
+- (NSInteger)numberOfComponentsInPickerView:
+(UIPickerView *)pickerView
+{
+    return 2;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView
+numberOfRowsInComponent:(NSInteger)component
+{
+    if (component==0){
+        return self.ipcamList.count;
+    }else{
+        return self.channelList.count;
+    }
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView
+             titleForRow:(NSInteger)row
+            forComponent:(NSInteger)component
+{
+    if (component==0){
+        if (self.ipcamList.count){
+            return [[self.ipcamList objectAtIndex:row] objectForKey:@"name"];
+        }else{
+            return @"";
+        }
+    }else{
+        return [self.channelList objectAtIndex:row];
+    }
+}
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if (component==0){
+        NSString *cameraIP = [[self.ipcamList objectAtIndex:row] objectForKey:@"address"];
+        self.currentCameraIP = [[NSString alloc] initWithString:cameraIP];
+    }else{
+        self.currentCameraCh = [NSString stringWithFormat:@"%d", row];
+    }
+    [self updateCurrentUrl];
+}
+
+#pragma mark CameraFinder delegate
+
+-(void) processCameraList:(NSArray *)cameraList
+{
+    self.ipcamList = [[NSArray alloc] initWithArray:cameraList];
+    [self.macAddressPickerView reloadAllComponents];
+    if (!self.currentCameraIP){
+        NSInteger currentCameraRow = [self.macAddressPickerView selectedRowInComponent:0];
+        NSInteger currentChRow = [self.macAddressPickerView selectedRowInComponent:1];
+        NSString *cameraIP = [[self.ipcamList objectAtIndex:currentCameraRow] objectForKey:@"address"];
+        self.currentCameraIP = [[NSString alloc] initWithString:cameraIP];
+        self.currentCameraCh = [NSString stringWithFormat:@"%d", currentChRow];
+        [self updateCurrentUrl];
+    }
 }
 
 @end

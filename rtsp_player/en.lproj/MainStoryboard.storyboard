@@ -13,24 +13,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4ZN-t5-Eo4">
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zju-SS-rKY">
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="URL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2b-En-0R4">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="GbG-kM-3OD"/>
+                                    <constraint firstAttribute="width" constant="286" id="1Qq-ss-TQy"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Camera Streaming Address" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2b-En-0R4">
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pC-hp-KFK">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="123" id="ZRM-8O-Hkq"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Stream Video">
+                                <state key="normal" title="Start Stream">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -42,6 +41,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W2S-Q6-93W">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="123" id="7LT-vh-lYq"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Stop Stream">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -54,44 +56,18 @@
                                     <action selector="stopStreaming:" destination="2" eventType="touchUpInside" id="Z9p-59-uZh"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPh-Sv-Smg">
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="file test">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="setTestFileUrl:" destination="2" eventType="touchUpInside" id="KLj-gq-M40"/>
-                                </connections>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Thb-aK-YoB">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="241" id="Sds-xb-8jt"/>
-                                    <constraint firstAttribute="height" constant="199" id="d4Y-dZ-ZIK"/>
+                                    <constraint firstAttribute="height" constant="255" id="fvX-uQ-adH"/>
+                                    <constraint firstAttribute="width" constant="241" id="l60-Am-iCB"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W4z-u5-hEQ">
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="display test">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="testYUVDisplay:" destination="2" eventType="touchUpInside" id="6cu-Ll-E4h"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x5U-Si-fIm">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Config">
+                                <state key="normal" title="Configuration">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -102,37 +78,30 @@
                                     <segue destination="SXc-oF-M30" kind="push" identifier="push to config webview" id="ffw-ui-Xyf"/>
                                 </connections>
                             </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pZo-5v-72L"/>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="f2b-En-0R4" firstAttribute="leading" secondItem="fPh-Sv-Smg" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="2bt-xe-tC9"/>
-                            <constraint firstItem="W2S-Q6-93W" firstAttribute="top" secondItem="5" secondAttribute="top" constant="241" id="5BI-4e-2ue"/>
-                            <constraint firstItem="f2b-En-0R4" firstAttribute="top" secondItem="5" secondAttribute="top" constant="77" id="5ih-kT-mNQ"/>
-                            <constraint firstItem="4ZN-t5-Eo4" firstAttribute="top" secondItem="5" secondAttribute="top" constant="114" id="7ob-Yd-xvb"/>
-                            <constraint firstItem="0pC-hp-KFK" firstAttribute="top" secondItem="5" secondAttribute="top" constant="167" id="A04-gi-NQ2"/>
-                            <constraint firstItem="zju-SS-rKY" firstAttribute="trailing" secondItem="Thb-aK-YoB" secondAttribute="trailing" type="default" id="CJ1-1k-HtH"/>
-                            <constraint firstItem="W4z-u5-hEQ" firstAttribute="baseline" secondItem="fPh-Sv-Smg" secondAttribute="baseline" type="default" id="IyB-2z-i97"/>
-                            <constraint firstItem="fPh-Sv-Smg" firstAttribute="top" secondItem="5" secondAttribute="top" constant="11" id="TkP-8q-42o"/>
-                            <constraint firstItem="Thb-aK-YoB" firstAttribute="top" secondItem="5" secondAttribute="top" constant="337" id="TmB-BT-Q0F"/>
-                            <constraint firstAttribute="bottom" secondItem="zju-SS-rKY" secondAttribute="bottom" constant="103" id="W87-ec-heb"/>
-                            <constraint firstItem="x5U-Si-fIm" firstAttribute="centerX" secondItem="zju-SS-rKY" secondAttribute="centerX" type="default" id="Xe6-P3-cS0"/>
-                            <constraint firstItem="0pC-hp-KFK" firstAttribute="centerX" secondItem="5" secondAttribute="centerX" type="default" id="a8C-Ia-yW9"/>
-                            <constraint firstItem="Thb-aK-YoB" firstAttribute="centerX" secondItem="W2S-Q6-93W" secondAttribute="centerX" type="default" id="aly-07-eom"/>
-                            <constraint firstItem="W2S-Q6-93W" firstAttribute="centerX" secondItem="0pC-hp-KFK" secondAttribute="centerX" type="default" id="aoQ-FW-H9i"/>
-                            <constraint firstItem="zju-SS-rKY" firstAttribute="leading" secondItem="4ZN-t5-Eo4" secondAttribute="leading" type="default" id="dHX-Ki-eOx"/>
-                            <constraint firstAttribute="trailing" secondItem="W4z-u5-hEQ" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="eIh-bJ-0cg"/>
-                            <constraint firstItem="4ZN-t5-Eo4" firstAttribute="centerX" secondItem="f2b-En-0R4" secondAttribute="centerX" type="default" id="ghK-AT-h2u"/>
-                            <constraint firstItem="0pC-hp-KFK" firstAttribute="centerX" secondItem="4ZN-t5-Eo4" secondAttribute="centerX" type="default" id="nYM-Ud-pTe"/>
-                            <constraint firstAttribute="bottom" secondItem="x5U-Si-fIm" secondAttribute="bottom" constant="29" id="qev-P7-vwQ"/>
-                            <constraint firstItem="4ZN-t5-Eo4" firstAttribute="trailing" secondItem="Thb-aK-YoB" secondAttribute="trailing" type="default" id="sVq-bb-cRy"/>
+                            <constraint firstItem="f2b-En-0R4" firstAttribute="centerX" secondItem="4ZN-t5-Eo4" secondAttribute="centerX" type="default" id="69T-9s-jGV"/>
+                            <constraint firstItem="Thb-aK-YoB" firstAttribute="leading" secondItem="5" secondAttribute="leading" constant="39" id="F0B-jo-Wxb"/>
+                            <constraint firstItem="0pC-hp-KFK" firstAttribute="leading" secondItem="5" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="I2p-mf-jhy"/>
+                            <constraint firstAttribute="trailing" secondItem="W2S-Q6-93W" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Sjq-Bb-qh4"/>
+                            <constraint firstItem="4ZN-t5-Eo4" firstAttribute="top" secondItem="f2b-En-0R4" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="UIJ-rb-SgP"/>
+                            <constraint firstItem="f2b-En-0R4" firstAttribute="top" secondItem="5" secondAttribute="top" constant="243" id="WCV-Zq-gsU"/>
+                            <constraint firstItem="0pC-hp-KFK" firstAttribute="top" secondItem="4ZN-t5-Eo4" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="ZM7-bo-58L"/>
+                            <constraint firstItem="x5U-Si-fIm" firstAttribute="centerX" secondItem="Thb-aK-YoB" secondAttribute="centerX" type="default" id="ad9-5s-lHv"/>
+                            <constraint firstItem="W2S-Q6-93W" firstAttribute="baseline" secondItem="0pC-hp-KFK" secondAttribute="baseline" type="default" id="bW6-jy-kIb"/>
+                            <constraint firstAttribute="bottom" secondItem="Thb-aK-YoB" secondAttribute="bottom" constant="12" id="hfH-Wp-28n"/>
+                            <constraint firstItem="pZo-5v-72L" firstAttribute="leading" secondItem="5" secondAttribute="leading" type="default" id="ivy-K2-2Mv"/>
+                            <constraint firstItem="4ZN-t5-Eo4" firstAttribute="leading" secondItem="5" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="kXA-HP-RzM"/>
+                            <constraint firstItem="x5U-Si-fIm" firstAttribute="top" secondItem="5" secondAttribute="top" constant="372" id="lf2-EF-v54"/>
+                            <constraint firstItem="pZo-5v-72L" firstAttribute="top" secondItem="5" secondAttribute="top" type="default" id="oFs-zW-4bz"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ThG-mK-b9l"/>
                     <connections>
-                        <outlet property="configServerAddress" destination="zju-SS-rKY" id="a2t-6q-RdZ"/>
                         <outlet property="decodeStatusText" destination="Thb-aK-YoB" id="wlL-Pd-8XJ"/>
-                        <outlet property="displayTestButton" destination="W4z-u5-hEQ" id="82T-yZ-kTA"/>
-                        <outlet property="fileDecodeTestButton" destination="fPh-Sv-Smg" id="qTp-dL-8wa"/>
+                        <outlet property="macAddressPickerView" destination="pZo-5v-72L" id="esw-1c-W46"/>
                         <outlet property="streamUrl" destination="4ZN-t5-Eo4" id="bHu-og-how"/>
                     </connections>
                 </viewController>
@@ -221,14 +190,8 @@
         <class className="RootViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RootViewController.h"/>
             <relationships>
-                <relationship kind="action" name="setTestFileUrl:"/>
-                <relationship kind="action" name="startStreaming:"/>
-                <relationship kind="action" name="stopStreaming:"/>
-                <relationship kind="action" name="testYUVDisplay:"/>
-                <relationship kind="outlet" name="configServerAddress" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="decodeStatusText" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="displayTestButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="fileDecodeTestButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="macAddressPickerView" candidateClass="UIPickerView"/>
                 <relationship kind="outlet" name="streamUrl" candidateClass="UITextField"/>
             </relationships>
         </class>

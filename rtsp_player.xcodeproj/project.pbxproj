@@ -11,6 +11,7 @@
 		611C1E161658A45D00BB3674 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611C1E151658A45D00BB3674 /* OpenGLES.framework */; };
 		611C1E181658A46400BB3674 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611C1E171658A46400BB3674 /* GLKit.framework */; };
 		611C1E381658A7AB00BB3674 /* YUVDisplayGLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 611C1E371658A7AB00BB3674 /* YUVDisplayGLViewController.m */; };
+		612C808716DD178500A63F56 /* CameraFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 612C808616DD178500A63F56 /* CameraFinder.m */; };
 		615573CC1659A0A900EC1274 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 615573CB1659A0A900EC1274 /* WebViewController.m */; };
 		615FB2B41655856E00D50098 /* FfmpegWrapperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 615FB2B31655856E00D50098 /* FfmpegWrapperTest.m */; };
 		618D5E2D166446D400C74FF1 /* _MG_3858_square_72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = 618D5E2C166446D400C74FF1 /* _MG_3858_square_72x72.png */; };
@@ -62,6 +63,8 @@
 		611C1E171658A46400BB3674 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		611C1E361658A7AB00BB3674 /* YUVDisplayGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUVDisplayGLViewController.h; sourceTree = "<group>"; };
 		611C1E371658A7AB00BB3674 /* YUVDisplayGLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YUVDisplayGLViewController.m; sourceTree = "<group>"; };
+		612C808516DD178500A63F56 /* CameraFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraFinder.h; sourceTree = "<group>"; };
+		612C808616DD178500A63F56 /* CameraFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraFinder.m; sourceTree = "<group>"; };
 		615573CA1659A0A800EC1274 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		615573CB1659A0A900EC1274 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		615FB2B21655856E00D50098 /* FfmpegWrapperTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FfmpegWrapperTest.h; path = src_tests/FfmpegWrapperTest.h; sourceTree = SOURCE_ROOT; };
@@ -232,6 +235,8 @@
 				615573CB1659A0A900EC1274 /* WebViewController.m */,
 				611C1E361658A7AB00BB3674 /* YUVDisplayGLViewController.h */,
 				611C1E371658A7AB00BB3674 /* YUVDisplayGLViewController.m */,
+				612C808516DD178500A63F56 /* CameraFinder.h */,
+				612C808616DD178500A63F56 /* CameraFinder.m */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -376,6 +381,7 @@
 				619E5075165576E800463A94 /* RootViewController.m in Sources */,
 				611C1E381658A7AB00BB3674 /* YUVDisplayGLViewController.m in Sources */,
 				615573CC1659A0A900EC1274 /* WebViewController.m in Sources */,
+				612C808716DD178500A63F56 /* CameraFinder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
