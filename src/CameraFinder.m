@@ -79,7 +79,6 @@
 - (void) printServices
 {
     for (NSNetService *service in self.services){
-//    NSNetService *service = [self.services objectAtIndex:0];
         [service setDelegate:self];
         [service resolveWithTimeout:10];
     }
@@ -102,7 +101,6 @@
                moreComing:(BOOL)moreComing
 {
     [self.services removeObject:aNetService];
-    
     if(!moreComing)
     {
     }
@@ -142,9 +140,21 @@
                     NSString *macAddress = [sender.name substringFromIndex:(strechIPRange.location + strechIPRange.length)];
                     NSArray *itemObjs = [[NSArray alloc] initWithObjects:macAddress, addressNSstring, nil];
                     NSArray *itemKeys = [[NSArray alloc] initWithObjects:@"name", @"address", nil];
-                    NSDictionary *item = [[NSDictionary alloc] initWithObjects:itemObjs forKeys:itemKeys];                    
-                    [self.ipcamList addObject:item];
-                    [self.delegate processCameraList:self.ipcamList];
+                    NSDictionary *item = [[NSDictionary alloc] initWithObjects:itemObjs forKeys:itemKeys];
+                    
+                    NSIndexSet *indexOfItem = [self.ipcamList indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                        if ([[obj objectForKey:@"name"] isEqualToString:macAddress]){
+                            NSLog(@"found a duplicate.");
+                            *stop=YES;
+                            return YES;
+                        }else{
+                            return NO;
+                        }
+                    }];
+                    if (indexOfItem.count==0){
+                        [self.ipcamList addObject:item];
+                        [self.delegate processCameraList:self.ipcamList];
+                    }
                 }
             }
         }
