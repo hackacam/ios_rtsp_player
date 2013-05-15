@@ -51,7 +51,7 @@
 - (void) startSearch
 {
     [self.serviceBrowser setDelegate:self];
-    [self.serviceBrowser searchForServicesOfType:@"_psia._tcp" inDomain:@""];
+    [self.serviceBrowser searchForServicesOfType:@"_stretch-camera._tcp" inDomain:@""];
 }
 
 #pragma mark netServiceBrowser delegate
